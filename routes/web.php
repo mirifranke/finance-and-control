@@ -25,6 +25,14 @@ Route::get('/finances', function () {
     return view('finances.index');
 })->middleware(['auth'])->name('finances');
 
+Route::get('/finances/fix-costs', function () {
+    return view('finances.fix-costs.index');
+})->middleware(['auth'])->name('fix-costs');
+
+Route::get('/finances/earnings', function () {
+    return view('finances.earnings.index');
+})->middleware(['auth'])->name('earnings');
+
 Route::get('/tasks', function () {
     return view('tasks.index');
 })->middleware(['auth'])->name('tasks');

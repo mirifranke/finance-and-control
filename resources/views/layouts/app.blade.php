@@ -1,3 +1,5 @@
+@props(['heading'])
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -17,14 +19,14 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <header class="border-b border-gray-300">
+                <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
                     <h2 class="font-semibold text-xl text-gray-800 leading-tight uppercase">
-                        {{ $header }}
+                        {{ $heading }}
                     </h2>
                 </div>
             </header>
@@ -33,10 +35,8 @@
             <main>
                 <div class="py-12">
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                            <div class="p-6 bg-white border-b border-gray-200">
-                                {{ $slot }}
-                            </div>
+                        <div class="sm:rounded-lg p-6 border border-gray-300">
+                            {{ $slot }}
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,5 @@
-<x-app-layout>
-    <x-slot name="header">
-        Tasks
-    </x-slot>
-    
+<x-app-layout heading="Tasks">
+
     <h1>My Tasks...</h1>
+     
 </x-app-layout>
