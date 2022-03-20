@@ -1,7 +1,7 @@
 @props(['name', 'active' => false])
 
 @php
-    $classes = "";
+    $classes = "text-gray-800 font-semibold";
     if ($active) {
         $classes .= " text-blue-500";
     }
@@ -9,4 +9,4 @@
 
 <li>
     <a {{ $attributes->merge(['class' => $classes]) }}>{{ $name }}</a>
-</li
+</li>
