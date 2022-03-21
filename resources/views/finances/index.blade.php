@@ -16,5 +16,7 @@
     <div>
         <p>Einnahmen: 4321 €</p>
         <p>Ausgaben: 1234 €</p>
+
+        
     </div>
 </x-main-finance>

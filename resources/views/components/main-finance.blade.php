@@ -2,21 +2,26 @@
 
 <x-app-layout heading="Finances">
     <x-setting heading="{{ $heading }}">
+
+        <x-slot name="buttons">
+            {{ $buttons ?? '' }}
+        </x-slot>
+
         <x-slot name="links">
             <x-setting-link
-                :href="route('finances')"
-                name="Overview"
-                :active="request()->routeIs('finances')" />
+                            :href="route('finances')"
+                            name="Overview"
+                            :active="request()->routeIs('finances')" />
 
             <x-setting-link
-                :href="route('fix-costs')"
-                name="Fix Costs"
-                :active="request()->routeIs('fix-costs')" />
+                            :href="route('regular-payments')"
+                            name="Regular Payments"
+                            :active="request()->routeIs('regular-payments')" />
 
             <x-setting-link
-                :href="route('earnings')"
-                name="Earnings"
-                :active="request()->routeIs('earnings')" />
+                            :href="route('one-off-payments')"
+                            name="One-Off Payments"
+                            :active="request()->routeIs('one-off-payments')" />
         </x-slot>
 
         {{ $slot }}

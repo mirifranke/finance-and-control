@@ -1,10 +1,15 @@
-
 @props(['heading'])
 
 <section class="py-2 mx-auto">
-    <h1 class="text-gray-800 uppercase text-lg font-bold mb-8 pb-2 border-b">
-        {{ $heading }}
-    </h1>
+    <div class="flex justify-between border-b mb-8">
+        <h1 class="text-gray-800 uppercase text-lg font-bold pb-2">
+            {{ $heading }}
+        </h1>
+
+        <div>
+            {{ $buttons ?? '' }}
+        </div>
+    </div>
 
     <div class="flex">
         <div class="w-48 flex-shrink-0 border-r">
