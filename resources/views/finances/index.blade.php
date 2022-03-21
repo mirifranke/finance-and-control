@@ -1,5 +1,5 @@
 <x-main-finance heading="Overview">
-    <div class="flex justify-center items-center">
+    <div class="flex justify-center items-center pb-3">
         <div class="pb-1">
             <x-icon name="arrow-left" />
         </div>
@@ -13,10 +13,26 @@
         </div>
     </div>
 
-    <div>
-        <p>Einnahmen: 4321 €</p>
-        <p>Ausgaben: 1234 €</p>
-
-        
+    <div class="bg-white dark:bg-gray-900">
+        <table class="min-w-full">
+            <tr class="border-b">
+                <x-column header>Regular Payments</x-column>
+                <x-column header></x-column>
+                <x-column header>One-Off Payments</x-column>
+                <x-column header></x-column>
+            </tr>
+            <tr>
+                <x-column>Incoming</x-column>
+                <x-column>2.222 €</x-column>
+                <x-column>Incoming</x-column>
+                <x-column>2.222 €</x-column>
+            </tr>
+            <tr>
+                <x-column>Outgoing</x-column>
+                <x-column>1.567 €</x-column>
+                <x-column>Outgoing</x-column>
+                <x-column>1.567 €</x-column>
+            </tr>
+        </table>
     </div>
 </x-main-finance>

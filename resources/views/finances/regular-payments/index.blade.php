@@ -86,4 +86,10 @@
             </tr>
         </table>
     </div>
+
+    <div class="pt-6 px-6">
+        <div class="font-semibold items-center">
+            Monthly Regular Payments: 3.6782 €
+        </div>
+    </div>
 </x-main-finance>

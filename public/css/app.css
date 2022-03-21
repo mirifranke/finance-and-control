@@ -899,9 +899,6 @@ select {
 .p-2 {
   padding: 0.5rem;
 }
-.p-4 {
-  padding: 1rem;
-}
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -934,8 +931,14 @@ select {
   padding-left: 0.25rem;
   padding-right: 0.25rem;
 }
+.pr-4 {
+  padding-right: 1rem;
+}
 .pt-8 {
   padding-top: 2rem;
+}
+.pb-4 {
+  padding-bottom: 1rem;
 }
 .pb-1 {
   padding-bottom: 0.25rem;
@@ -954,9 +957,6 @@ select {
 }
 .pl-3 {
   padding-left: 0.75rem;
-}
-.pr-4 {
-  padding-right: 1rem;
 }
 .pb-2 {
   padding-bottom: 0.5rem;
