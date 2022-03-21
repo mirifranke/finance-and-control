@@ -22,15 +22,27 @@
                 <x-column header></x-column>
             </tr>
             <tr>
-                <x-column>Incoming</x-column>
+                {{-- TODO: Add Filter --}}
+                <x-column>
+                    <a href="{{ route('regular-payments') }}" class="hover:text-blue-500">Incoming</a>
+                </x-column>
                 <x-column>2.222 €</x-column>
-                <x-column>Incoming</x-column>
+                {{-- TODO: Add Filter --}}
+                <x-column>
+                    <a href="{{ route('one-off-payments') }}" class="hover:text-blue-500">Incoming</a>
+                </x-column>
                 <x-column>2.222 €</x-column>
             </tr>
             <tr>
-                <x-column>Outgoing</x-column>
+                {{-- TODO: Add Filter --}}
+                <x-column>
+                    <a href="{{ route('regular-payments') }}" class="hover:text-blue-500">Outgoing</a>
+                </x-column>
                 <x-column>1.567 €</x-column>
-                <x-column>Outgoing</x-column>
+                {{-- TODO: Add Filter --}}
+                <x-column>
+                    <a href="{{ route('one-off-payments') }}" class="hover:text-blue-500">Outgoing</a>
+                </x-column>
                 <x-column>1.567 €</x-column>
             </tr>
         </table>

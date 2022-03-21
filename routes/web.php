@@ -25,10 +25,6 @@ Route::get('/finances', function () {
     return view('finances.index');
 })->middleware(['auth'])->name('finances');
 
-Route::get('/finances/fix-costs', function () {
-    return view('finances.fix-costs.index');
-})->middleware(['auth'])->name('fix-costs');
-
 Route::get('/finances/regular-payments', function () {
     return view('finances.regular-payments.index');
 })->middleware(['auth'])->name('regular-payments');
@@ -36,6 +32,10 @@ Route::get('/finances/regular-payments', function () {
 Route::get('/finances/one-off-payments', function () {
     return view('finances.one-off-payments.index');
 })->middleware(['auth'])->name('one-off-payments');
+
+Route::get('/finances/categories', function () {
+    return view('finances.categories.index');
+})->middleware(['auth'])->name('categories');
 
 Route::get('/tasks', function () {
     return view('tasks.index');

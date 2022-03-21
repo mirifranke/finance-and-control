@@ -22,6 +22,11 @@
                             :href="route('one-off-payments')"
                             name="One-Off Payments"
                             :active="request()->routeIs('one-off-payments')" />
+
+            <x-setting-link
+                            :href="route('categories')"
+                            name="Categories"
+                            :active="request()->routeIs('categories')" />
         </x-slot>
 
         {{ $slot }}
