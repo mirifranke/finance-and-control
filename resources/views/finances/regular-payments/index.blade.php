@@ -26,7 +26,7 @@
     <script>
         function formCreateRegularPayment() {
             return {
-                show: true,
+                show: false,
 
                 showForm() {
                     this.show = true;
