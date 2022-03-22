@@ -25,7 +25,7 @@ Route::middleware(['auth'])->group(function () {
     })->name('dashboard');
 
     Route::get('/finances', function () {
-        return view('finances.index');
+        return view('finances.overview.index');
     })->name('finances');
 
     Route::get('/finances/regular-payments', function () {

@@ -3,8 +3,8 @@
 <x-app-layout heading="Finances">
     <x-setting heading="{{ $heading }}">
 
-        <x-slot name="buttons">
-            {{ $buttons ?? '' }}
+        <x-slot name="options">
+            {{ $options ?? '' }}
         </x-slot>
 
         <x-slot name="links">

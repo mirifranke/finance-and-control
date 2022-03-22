@@ -7,7 +7,7 @@
         </h1>
 
         <div>
-            {{ $buttons ?? '' }}
+            {{ $options ?? '' }}
         </div>
     </div>
 
