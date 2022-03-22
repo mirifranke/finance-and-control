@@ -4,22 +4,23 @@
             <tr class="border-b">
                 <x-column header>Title</x-column>
                 <x-column header>Description</x-column>
-                <x-column header></x-column>
             </tr>
-            <tr>
+            <x-column-row>
                 <x-column>Mobility</x-column>
                 <x-column>Car/ Bus/...</x-column>
-                <x-column>
-                    <x-icon name="trash" />
-                </x-column>
-            </tr>
-            <tr>
+            </x-column-row>
+            <x-column-row>
                 <x-column>Living</x-column>
+                <x-column>Home...</x-column>
+            </x-column-row>
+            <x-column-row>
+                <x-column>Sport</x-column>
+                <x-column>Karate, ...</x-column>
+            </x-column-row>
+            <x-column-row>
+                <x-column>Others</x-column>
                 <x-column>...</x-column>
-                <x-column>
-                    <x-icon name="trash" />
-                </x-column>
-            </tr>
+            </x-column-row>
         </table>
     </div>
 
