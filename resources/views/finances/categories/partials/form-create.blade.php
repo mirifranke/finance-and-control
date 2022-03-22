@@ -1,4 +1,6 @@
-<form method="POST" action="" @submit.prevent="createCategory()">
+<form method="POST" action="/finances/categories">
+    @csrf
+    
     <div class="flex">
         <div class="grow grid grid-cols-3 gap-4">
             <div>
@@ -27,7 +29,7 @@
                     <button @click.prevent="cancel()">
                         <x-icon name="cancel" />
                     </button>
-                    <button @click.prevent="create()">
+                    <button type="submit">
                         <x-icon name="check" />
                     </button>
                 </div>

@@ -16,7 +16,7 @@ class CategoriesController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $categories = Category::all();
+        $categories = Category::orderBy('title')->get();
 
         return view('finances.categories.index')->with(compact('categories'));
     }

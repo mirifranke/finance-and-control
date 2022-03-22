@@ -13,6 +13,7 @@ class Category extends Model
     use Uuids;
 
     protected $fillable = [
+        'creator_id',
         'title',
         'description',
     ];
