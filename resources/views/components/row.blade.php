@@ -1,3 +1,5 @@
+@props(['deleteAction'])
+
 <tr x-data="{ hover: false }"
     @mouseover="hover = true"
     @mouseleave="hover = false"
@@ -6,7 +8,14 @@
 
     <template x-if="hover">
         <x-column>
-            <x-icon name="trash" />
+            <form method="POST" action="{{ $deleteAction }}">
+                @csrf
+                @method('DELETE')
+
+                <button type="submit">
+                    <x-icon name="trash" />
+                </button>
+            </form>
         </x-column>
     </template>
 </tr>

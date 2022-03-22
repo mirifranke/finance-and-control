@@ -16,6 +16,6 @@ class CreateCategoryController extends Controller
             'description' => $request->input('description'),
         ]);
 
-        return redirect()->route('categories');
+        return redirect()->route('categories')->with('success', 'New Category Was Stored!');
     }
 }

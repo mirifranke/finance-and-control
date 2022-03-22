@@ -3,7 +3,7 @@
 
 use App\Http\Controllers\Categories\CategoriesController;
 use App\Http\Controllers\Categories\CreateCategoryController;
-use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Categories\DeleteCategoryController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -23,6 +23,8 @@ Route::get('/one-off-payments', function () {
 })->name('one-off-payments');
 
 // CATEGORIES
-Route::post('/categories', CreateCategoryController::class)->name('category.create');
+Route::post('/categories', CreateCategoryController::class)->name('categories.create');
 
 Route::get('/categories', CategoriesController::class)->name('categories');
+
+Route::delete('/categories/{id}', DeleteCategoryController::class)->name('categories.destroy');

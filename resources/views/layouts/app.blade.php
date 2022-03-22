@@ -2,45 +2,71 @@
 
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <!-- Fonts -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Styles -->
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
-        <!-- Scripts -->
-        <script src="{{ asset('js/app.js') }}" defer></script>
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen">
-            @include('layouts.navigation')
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
-            <!-- Page Heading -->
-            <header class="border-b border-gray-300">
-                <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-                    <h2 class="font-semibold text-xl text-gray-800 leading-tight uppercase tracking-widest">
-                        {{ $heading }}
-                    </h2>
-                </div>
-            </header>
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
+</head>
 
-            <!-- Page Content -->
-            <main>
-                <div class="py-12">
-                    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                        <div class="sm:rounded-lg p-6 border border-gray-300">
-                            {{ $slot }}
-                        </div>
+<body class="font-sans antialiased">
+    <div class="min-h-screen">
+        @include('layouts.navigation')
+
+        <!-- Page Heading -->
+        <header class="border-b border-gray-300">
+            <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight uppercase tracking-widest">
+                    {{ $heading }}
+                </h2>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <main>
+            <div class="py-12">
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div class="sm:rounded-lg p-6 border border-gray-300">
+                        {{ $slot }}
                     </div>
                 </div>
-            </main>
-        </div>
-    </body>
+            </div>
+        </main>
+    </div>
+
+    <div x-data="{ show: false, message: 'Default Message' }"
+         x-show.transition.opacity="show"
+         x-text="message"
+         @flash.window="
+            message = $event.detail.message;
+            show = true;
+            setTimeout(() => show = false, 1000);
+        "
+         class="fixed bottom-0 right-0 bg-green-500 text-white p-2 m-4 rounded-xl">
+    </div>
+
+    <script>
+        function flash(message) {
+            window.dispatchEvent(new CustomEvent('flash', {
+                detail: {
+                    message
+                }
+            }));
+        }
+    </script>
+
+    <x-flash />
+</body>
+
 </html>

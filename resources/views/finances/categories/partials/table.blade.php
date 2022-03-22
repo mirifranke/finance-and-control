@@ -5,7 +5,7 @@
     </tr>
 
     @foreach ($categories as $category)
-        <x-row>
+        <x-row deleteAction="{{ route('categories.destroy', ['id' => $category->id]) }}">
             <x-column>{{ $category->title }}</x-column>
             <x-column>{{ $category->description }}</x-column>
         </x-row>
