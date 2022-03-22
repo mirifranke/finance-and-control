@@ -116,7 +116,7 @@
                         </div>
                     </div>
 
-                    <div class="grow grid grid-cols-4 gap-4 pt-3">
+                    <div class="grow grid grid-cols-3 gap-4 pt-3">
 
                         {{-- Title --}}
                         <div>
@@ -125,31 +125,31 @@
                                      id="title"
                                      name="title"
                                      type="text"
-                                     @keyup.enter="create()"
-                                     @keyup.esc="cancel()" />
+                                     class="w-full"/>
                         </div>
 
-                        {{-- Amount --}}
+                        {{-- Title --}}
                         <div>
-                            <x-label for="description">Amount</x-label>
-                            <x-input
-                                     id="description"
-                                     name="description"
-                                     type="text"
-                                     class="w-full"
-                                     @keyup.enter="create()"
-                                     @keyup.esc="cancel()" />
+                            <x-label for="amount" class="">Amount</x-label>
+
+                            <div class="relative">
+                                <x-input id="amount" name="amount" type="text" class="pr-7" />
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500 sm:text-sm">€</span>
+                                </div>
+                            </div>
                         </div>
 
                         {{-- Category --}}
                         <div>
-                            <x-label for="title" class="">Category</x-label>
-                            <x-input
-                                     id="title"
-                                     name="title"
-                                     type="text"
-                                     @keyup.enter="create()"
-                                     @keyup.esc="cancel()" />
+                            <x-label for="category">Category</x-label>
+                            <x-select id="category" name="category">
+                                @foreach (\App\Models\Category::all() as $category)
+                                    <option value="{{ $category->id }}">
+                                        {{ $category->title }}
+                                    </option>
+                                @endforeach
+                            </x-select>
                         </div>
 
                         {{-- Intervall --}}
@@ -159,36 +159,18 @@
                                      id="description"
                                      name="description"
                                      type="text"
-                                     class="w-full"
-                                     @keyup.enter="create()"
-                                     @keyup.esc="cancel()" />
-                        </div>
-
-                        <div>
-                            <x-label for="title" class="">Category</x-label>
-
-                            <x-dropdown align="left" width="48">
-                                <x-slot name="trigger">
-                                    <x-dropdown-trigger>Mobility</x-dropdown-trigger>
-                                </x-slot>
-
-                                <x-slot name="content">
-                                    <x-dropdown-link href="#">Mobility</x-dropdown-link>
-                                    <x-dropdown-link href="#">Living</x-dropdown-link>
-                                    <x-dropdown-link href="#">Multimedia</x-dropdown-link>
-                                </x-slot>
-                            </x-dropdown>
+                                     class="w-full" />
                         </div>
 
                         {{-- Start Date --}}
                         <div>
                             <x-label for="title" class="">Start Date</x-label>
+
                             <x-input
                                      id="title"
                                      name="title"
-                                     type="text"
-                                     @keyup.enter="create()"
-                                     @keyup.esc="cancel()" />
+                                     type="date"
+                                     class="w-full" />
                         </div>
 
                         {{-- End Date --}}
@@ -197,21 +179,19 @@
                             <x-input
                                      id="description"
                                      name="description"
-                                     type="text"
-                                     class="w-full"
-                                     @keyup.enter="create()"
-                                     @keyup.esc="cancel()" />
+                                     type="date"
+                                     class="w-full" />
                         </div>
+                    </div>
 
-                        <div class="col-span-3">
-                            <div class="flex justify-end space-x-2">
-                                <button @click.prevent="cancel()">
-                                    <x-icon name="cancel" />
-                                </button>
-                                <button @click.prevent="create()">
-                                    <x-icon name="check" />
-                                </button>
-                            </div>
+                    <div class="col-span-3 pt-3">
+                        <div class="flex justify-end space-x-2">
+                            <button @click.prevent="cancel()">
+                                <x-icon name="cancel" />
+                            </button>
+                            <button @click.prevent="create()">
+                                <x-icon name="check" />
+                            </button>
                         </div>
                     </div>
                 </div>
