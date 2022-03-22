@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Category;
+use App\Models\Payment;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,11 +15,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignId('creator_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->string('title');
-            $table->string('description')->nullable();
+            $table->string('type')->default(Payment::TYPE_REGULAR);
+            $table->text('title');
+            $table->integer('amount')->default(0);
+            $table->foreignIdFor(Category::class);
+            $table->string('interval');
+            $table->timestamp('starts_at');
+            $table->timestamp('ends_at')->nullable();
+
             $table->timestamps();
         });
     }
@@ -29,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('payments');
     }
 };

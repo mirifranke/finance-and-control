@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Category;
+use App\Models\Payment;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,6 +16,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        User::factory()->create([
+            'name' => 'Miriam',
+            'email' => 'miriam.franke77@gmail.com',
+            'password' => bcrypt('test'),
+        ]);
+
+        Category::factory()->count(5)->create();
+
+        Payment::factory()
+            ->count(30)
+            ->create();
     }
 }
