@@ -17,6 +17,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignId('creator_id')->references('id')->on('users')->cascadeOnDelete();
             $table->string('title');
+            $table->string('slug');
             $table->string('description')->nullable();
             $table->timestamps();
         });

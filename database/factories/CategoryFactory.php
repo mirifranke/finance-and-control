@@ -13,10 +13,13 @@ class CategoryFactory extends Factory
 {
     public function definition()
     {
+        $title = $this->faker->sentence(3);
+
         return [
             'id' => Str::uuid(),
             'creator_id' => User::factory(),
-            'title' => $this->faker->word(),
+            'title' => $title,
+            'slug' => Str::slug($title),
             'description' => $this->faker->sentence(),
         ];
     }

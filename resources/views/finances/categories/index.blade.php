@@ -4,7 +4,7 @@
     </div>
 
     <div x-data="formCreateCategory()">
-        <button x-show="! show" @click="showForm()" class="px-6">
+        <button x-show="! show" @click="showForm()" class="px-6 related ">
             <x-icon name="add" />
         </button>
 
@@ -28,7 +28,7 @@
                 },
 
                 create() {
-                    
+
                     console.log('create');
                 },
 
