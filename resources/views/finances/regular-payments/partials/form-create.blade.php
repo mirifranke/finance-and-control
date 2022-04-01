@@ -2,15 +2,10 @@
     <div class="flex-col">
         <div class="grid grid-cols-2 gap-4">
             <div class="flex space-x-2 items-end">
-                <x-input id="incoming"
-                         name="type"
-                         type="radio"
-                         checked />
+                <x-input id="incoming" name="type" type="radio" checked />
                 <x-label for="incoming" class="">Incoming</x-label>
 
-                <x-input id="outgoing"
-                         name="type"
-                         type="radio" />
+                <x-input id="outgoing" name="type" type="radio" />
                 <x-label for="outgoing" class="">Outgoing</x-label>
             </div>
         </div>
@@ -20,11 +15,7 @@
             {{-- Title --}}
             <div>
                 <x-label for="title" class="">Title</x-label>
-                <x-input
-                         id="title"
-                         name="title"
-                         type="text"
-                         class="w-full" />
+                <x-input id="title" name="title" type="text" class="w-full" />
             </div>
 
             {{-- Title --}}
@@ -45,6 +36,17 @@
                 <x-select-category />
             </div>
 
+            <div class="col-span-3 flex">
+                <div class="form-check">
+                    <input
+                        class="bg-gray-100 rounded-xl border-none focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        type="checkbox" id="is_endless">
+                    <x-label class="inline-block pl-1" for="is_endless">
+                        endless
+                    </x-label>
+                </div>
+            </div>
+
             {{-- Intervall --}}
             <div>
                 <x-label for="description">Intervall</x-label>
@@ -55,21 +57,13 @@
             <div>
                 <x-label for="title" class="">Start Date</x-label>
 
-                <x-input
-                         id="title"
-                         name="title"
-                         type="date"
-                         class="w-full" />
+                <x-input id="title" name="title" type="date" class="w-full" />
             </div>
 
             {{-- End Date --}}
             <div>
                 <x-label for="description">End Date</x-label>
-                <x-input
-                         id="description"
-                         name="description"
-                         type="date"
-                         class="w-full" />
+                <x-input id="description" name="description" type="date" class="w-full" />
             </div>
         </div>
 

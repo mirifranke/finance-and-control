@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('title');
             $table->integer('amount')->default(0);
             $table->foreignIdFor(Category::class);
+            $table->text('description')->nullable();
             $table->string('interval');
             $table->timestamp('starts_at');
             $table->timestamp('ends_at')->nullable();

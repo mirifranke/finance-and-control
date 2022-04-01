@@ -15,12 +15,13 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    @livewireStyles
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
 
-<body class="font-sans antialiased">
+<body class="font-sans antialiased bg-gray-100">
     <div class="min-h-screen">
         @include('layouts.navigation')
 
@@ -37,7 +38,7 @@
         <main>
             <div class="py-12">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div class="sm:rounded-lg p-6 border border-gray-300">
+                    <div class="sm:rounded-lg p-6 bg-white">
                         {{ $slot }}
                     </div>
                 </div>
@@ -67,6 +68,7 @@
     </script>
 
     <x-flash />
+    @livewireScripts
 </body>
 
 </html>

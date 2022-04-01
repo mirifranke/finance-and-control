@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white">
+<nav x-data="{ open: false }" class="bg-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="px-2 py-1 flex justify-between">
         <a href="{{ route('dashboard') }}">
