@@ -14,14 +14,14 @@
                             :active="request()->routeIs('finances')" />
 
             <x-setting-link
-                            :href="route('regular-payments')"
+                            :href="route('payments.regular')"
                             name="Regular Payments"
-                            :active="request()->routeIs('regular-payments')" />
+                            :active="request()->routeIs('payments.regular')" />
 
             <x-setting-link
-                            :href="route('one-off-payments')"
+                            :href="route('payments.one-off')"
                             name="One-Off Payments"
-                            :active="request()->routeIs('one-off-payments')" />
+                            :active="request()->routeIs('payments.one-off')" />
 
             <x-setting-link
                             :href="route('categories')"

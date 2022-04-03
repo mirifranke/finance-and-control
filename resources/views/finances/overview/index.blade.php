@@ -24,24 +24,24 @@
             <tr>
                 {{-- TODO: Add Filter --}}
                 <x-column>
-                    <a href="{{ route('regular-payments') }}" class="hover:text-blue-500">Incoming</a>
+                    <a href="{{ route('payments.regular') }}" class="hover:text-blue-500">Incoming</a>
                 </x-column>
                 <x-column>2.222 €</x-column>
                 {{-- TODO: Add Filter --}}
                 <x-column>
-                    <a href="{{ route('one-off-payments') }}" class="hover:text-blue-500">Incoming</a>
+                    <a href="{{ route('payments.one-off') }}" class="hover:text-blue-500">Incoming</a>
                 </x-column>
                 <x-column>2.222 €</x-column>
             </tr>
             <tr>
                 {{-- TODO: Add Filter --}}
                 <x-column>
-                    <a href="{{ route('regular-payments') }}" class="hover:text-blue-500">Outgoing</a>
+                    <a href="{{ route('payments.regular') }}" class="hover:text-blue-500">Outgoing</a>
                 </x-column>
                 <x-column>1.567 €</x-column>
                 {{-- TODO: Add Filter --}}
                 <x-column>
-                    <a href="{{ route('one-off-payments') }}" class="hover:text-blue-500">Outgoing</a>
+                    <a href="{{ route('payments.one-off') }}" class="hover:text-blue-500">Outgoing</a>
                 </x-column>
                 <x-column>1.567 €</x-column>
             </tr>

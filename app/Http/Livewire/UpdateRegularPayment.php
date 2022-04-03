@@ -5,23 +5,24 @@ namespace App\Http\Livewire;
 use App\Models\Category;
 use App\Models\Payment;
 use App\Utilities\Helper;
-use Livewire\Component;
-use Carbon\Carbon;
 use Illuminate\Http\Response;
+use Livewire\Component;
 
-class CreateRegularPayment extends Component
+class UpdateRegularPayment extends Component
 {
     public $categories;
 
-    public $isDebit = false;
+    public $payment;
+
+    public $isDebit;
 
     public $title;
-    public $amount = 0;
+    public $amount;
     public $category_id;
     public $description;
-    public $interval = Payment::INTERVAL_MONTHLY;
+    public $interval;
     public $starts_at;
-    public $ends_at = null;
+    public $ends_at;
 
     public $isEndless = true;
 
@@ -34,10 +35,31 @@ class CreateRegularPayment extends Component
         'starts_at' => ['required', 'date'],
     ];
 
-    public function mount()
+    public function mount(Payment $payment)
     {
-        $this->starts_at = Carbon::now()->format('Y-m-d');
         $this->categories = Category::all();
+
+        $this->payment = $payment;
+
+        if ($payment->amount < 0) {
+            $this->isDebit = true;
+            $this->amount = $payment->amount * (-1);
+        } else {
+            $this->isDebit = false;
+            $this->amount = $payment->amount;
+        }
+        $this->amount = substr_replace($this->amount, ',', -2, 0);
+
+        $this->title = $payment->title;
+        $this->category_id = $payment->category_id;
+        $this->description = $payment->description;
+        $this->interval = $payment->interval;
+        $this->starts_at = $payment->starts_at->toDateString();
+
+        if ($payment->ends_at) {
+            $this->isEndless = false;
+            $this->ends_at = $payment->ends_at->toDateString();
+        }
     }
 
     public function setToCredit()
@@ -65,8 +87,7 @@ class CreateRegularPayment extends Component
 
         $amountInCents = Helper::getCents($this->amount, $this->isDebit);
 
-        Payment::create([
-            'creator_id' => auth()->id(),
+        $this->payment->fill([
             'type' => Payment::TYPE_REGULAR,
             'title' => $this->title,
             'amount' => $amountInCents,
@@ -76,8 +97,9 @@ class CreateRegularPayment extends Component
             'starts_at' => $this->starts_at,
             'ends_at' => $this->isEndless ? null : $this->ends_at,
         ]);
+        $this->payment->save();
 
-        session()->flash('success', 'Payment was created successfully.');
+        session()->flash('success', 'Payment was updated successfully.');
 
         $this->reset();
 
@@ -86,6 +108,6 @@ class CreateRegularPayment extends Component
 
     public function render()
     {
-        return view('livewire.create-regular-payment');
+        return view('livewire.update-regular-payment');
     }
 }

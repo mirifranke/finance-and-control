@@ -4,8 +4,9 @@
 use App\Http\Controllers\Categories\CategoriesController;
 use App\Http\Controllers\Categories\CreateCategoryController;
 use App\Http\Controllers\Categories\DeleteCategoryController;
-use App\Http\Controllers\RegularPayments\DeleteRegularPaymentController;
-use App\Http\Controllers\RegularPayments\RegularPaymentsController;
+use App\Http\Controllers\Payments\DeletePaymentController;
+use App\Http\Controllers\Payments\OneOffPaymentsController;
+use App\Http\Controllers\Payments\RegularPaymentsController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -14,15 +15,12 @@ Route::get('/', function () {
     return view('finances.overview.index');
 })->name('finances');
 
-// REGULAR PAYMENtS
-Route::get('/regular-payments', RegularPaymentsController::class)->name('regular-payments');
+// PAYMENTS
+Route::get('/payments/regular', RegularPaymentsController::class)->name('payments.regular');
+Route::get('/payments/one-off', OneOffPaymentsController::class)->name('payments.one-off');
 
-Route::delete('regular-payments/{payment}', DeleteRegularPaymentController::class)->name('regular-payments.delete');
+Route::delete('/payments/{id}', DeletePaymentController::class)->name('payments.destroy');
 
-// ONE-OFF PAYMENTS
-Route::get('/one-off-payments', function () {
-    return view('finances.one-off-payments.index');
-})->name('one-off-payments');
 
 // CATEGORIES
 Route::post('/categories', CreateCategoryController::class)->name('categories.create');

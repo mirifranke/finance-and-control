@@ -19,7 +19,7 @@
 
     <div class="py-3 px-6">
         <div class="font-semibold items-center">
-            Monthly Regular Payments: 3.6782 €
+            Monthly Regular Payments: {{ $total }} €
         </div>
     </div>
 

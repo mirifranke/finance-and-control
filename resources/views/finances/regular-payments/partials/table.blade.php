@@ -8,8 +8,16 @@
         <x-column header>Enddatum</x-column>
     </tr>
     @foreach ($payments as $payment)
-        <x-row deleteAction="#">
-            <x-column>{{ $payment->title }}</x-column>
+        <x-row deleteAction="{{ route('payments.destroy', ['id' => $payment->id]) }}">
+            <x-column class="relative" x-data="formUpdateRegularPayment()">
+                <div @click="showForm()" class="hover:text-blue-600 hover:font-semibold">
+                    {{ $payment->title }}
+                </div>
+
+                <div x-show="show" class="max-w-fit w-screen">
+                    <livewire:update-regular-payment :payment="$payment" />
+                </div>
+            </x-column>
             <x-column>{{ $payment->getAmountForUser() }}</x-column>
             <x-column>{{ $payment->category->title }}</x-column>
             <x-column>{{ $payment->interval }}</x-column>
@@ -18,3 +26,30 @@
         </x-row>
     @endforeach
 </table>
+
+<script>
+    function formUpdateRegularPayment() {
+                return {
+                    show: false,
+
+                    showForm() {
+                        this.show = true;
+                        // TODO: set focus on title
+                    },
+
+                    hideForm() {
+                        this.show = false;
+                    },
+
+                    create() {
+                        console.log('create');
+                    },
+
+                    cancel() {
+                        document.getElementById('title').value = '';
+                        document.getElementById('description').value = '';
+                        this.hideForm();
+                    }
+                }
+            }
+</script>

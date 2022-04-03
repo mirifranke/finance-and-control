@@ -6,14 +6,21 @@ use Illuminate\Support\Carbon;
 
 class Helper
 {
-
-    public static function getCents(string $amount): int
+    public static function getCents(string $amount, bool $isDebit): int
     {
         $euroAndCent = explode(',', str_replace('.', ',', $amount));
 
         $cents = $euroAndCent[0] * 100;
         if (count($euroAndCent) > 1) {
-            $cents += $euroAndCent[1];
+            if (strlen($euroAndCent[1]) == 1) {
+                $cents += $euroAndCent[1] * 10;
+            } else if (strlen($euroAndCent[1]) == 2) {
+                $cents += $euroAndCent[1];
+            }
+        }
+
+        if ($isDebit) {
+            $cents = $cents * (-1);
         }
 
         return $cents;

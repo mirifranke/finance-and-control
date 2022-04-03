@@ -5,16 +5,47 @@
         <x-column header>Kategorie</x-column>
         <x-column header>Datum</x-column>
     </tr>
-    <x-row deleteAction="#">
-        <x-column>Zuschuss Kanadareise</x-column>
-        <x-column>500 €</x-column>
-        <x-column>Kinder</x-column>
-        <x-column>06.02.2022</x-column>
+    @foreach ($payments as $payment)
+    <x-row deleteAction="{{ route('payments.destroy', ['id' => $payment->id]) }}">
+        <x-column class="relative" x-data="formUpdateOneOffPayment()">
+            <div @click="showForm()" class="hover:text-blue-600 hover:font-semibold">
+                {{ $payment->title }}
+            </div>
+
+            <div x-show="show" class="max-w-fit">
+                <livewire:update-one-off-payment :payment="$payment" />
+            </div>
+        </x-column>
+        <x-column>{{ $payment->getAmountForUser() }}</x-column>
+        <x-column>{{ $payment->category->title }}</x-column>
+        <x-column>{{ $payment->getStartsAtForUser() }}</x-column>
     </x-row>
-    <x-row deleteAction="#">
-        <x-column>Autoreparatur</x-column>
-        <x-column>-663 €</x-column>
-        <x-column>Mobilität</x-column>
-        <x-column>01.05.2022</x-column>
-    </x-row>
+    @endforeach
 </table>
+
+<script>
+    function formUpdateOneOffPayment() {
+                return {
+                    show: false,
+
+                    showForm() {
+                        this.show = true;
+                        // TODO: set focus on title
+                    },
+
+                    hideForm() {
+                        this.show = false;
+                    },
+
+                    create() {
+                        console.log('create');
+                    },
+
+                    cancel() {
+                        document.getElementById('title').value = '';
+                        document.getElementById('description').value = '';
+                        this.hideForm();
+                    }
+                }
+            }
+</script>
