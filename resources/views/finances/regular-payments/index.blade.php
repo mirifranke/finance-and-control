@@ -9,13 +9,12 @@
         </button>
 
         <div x-show="show" class="max-w-fit px-6 pt-3">
-            {{-- @include('finances.regular-payments.partials.form-create') --}}
             <livewire:create-regular-payment />
         </div>
     </div>
 
     <div class="bg-white dark:bg-gray-900">
-        @include('finances.regular-payments.partials.table')
+        @include('finances.regular-payments.partials.table', $payments)
     </div>
 
     <div class="py-3 px-6">

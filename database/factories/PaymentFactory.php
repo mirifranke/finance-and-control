@@ -26,14 +26,21 @@ class PaymentFactory extends Factory
             $ends_at = $date1;
         }
 
+        $type = $this->faker->randomElement([Payment::TYPE_REGULAR, Payment::TYPE_ONE_OFF]);
+
+        if ($type === Payment::TYPE_REGULAR) {
+            $interval = $this->faker->randomElement(Payment::INTERVALS);
+        } else {
+            $interval = Payment::INTERVAL_ONCE;
+        }
+
         return [
-            'id' => Str::uuid(),
             'creator_id' => User::factory(),
-            'type' => $this->faker->randomElement([Payment::TYPE_REGULAR, Payment::TYPE_ONE_OFF]),
+            'type' => $type,
             'title' => $this->faker->word(),
             'amount' => $this->faker->numberBetween($min = 100, $max = 10000),
             'category_id' => $this->faker->randomElement(Category::all()),
-            'interval' => $this->faker->randomElement(Payment::INTERVALS),
+            'interval' => $interval,
             'starts_at' => $starts_at->format('Y-m-d H:i:s'),
             'ends_at' => $ends_at->format('Y-m-d H:i:s'),
         ];

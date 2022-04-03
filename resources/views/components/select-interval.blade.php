@@ -1,4 +1,4 @@
-<x-select id="interval" name="interval">
+<x-select wire:model.defer="interval" id="interval" name="interval">
     <option value="daily">daily</option>
     <option value="weekly">weekly</option>
     <option value="monthly" selected>monthly</option>

@@ -1,4 +1,4 @@
-<x-select id="category" name="category">
+<x-select wire:model.defer="category_id" id="category_id" name="category_id">
     <option value="null">select category</option>
     @foreach ($categories as $category)
         <option value="{{ $category->id }}">
@@ -6,4 +6,3 @@
         </option>
     @endforeach
 </x-select>
-

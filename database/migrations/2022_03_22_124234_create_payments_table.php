@@ -16,7 +16,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('payments', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
             $table->foreignId('creator_id')->references('id')->on('users')->cascadeOnDelete();
             $table->string('type')->default(Payment::TYPE_REGULAR);
             $table->text('title');
