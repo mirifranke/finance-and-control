@@ -10,6 +10,7 @@ class RegularPaymentsController extends Controller
     public function __invoke()
     {
         $payments = Payment::where('type', Payment::TYPE_REGULAR)
+            ->filter(request(['category', 'type']))
             ->orderBy('category_id')
             ->get();
 

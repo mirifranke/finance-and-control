@@ -1,14 +1,20 @@
 <div class="flex">
     <div class="pr-4">
-        <x-filter-button>All</x-filter-button>
+        <x-filter-link href="/finances/payments/one-off">
+            All
+        </x-filter-link>
     </div>
 
     <div class="pr-4">
-        <x-filter-button>Incoming</x-filter-button>
+        <x-filter-link href="/finances/payments/one-off/?type=incoming">
+            Incoming
+        </x-filter-link>
     </div>
 
     <div class="pr-4">
-        <x-filter-button>Outgoing</x-filter-button>
+        <x-filter-link href="/finances/payments/one-off/?type=outgoing">
+            Outgoing
+        </x-filter-link>
     </div>
 
     <div class="pr-4">

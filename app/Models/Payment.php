@@ -93,5 +93,14 @@ class Payment extends Model
                 fn ($query) => $query->where('slug', $category)
             )
         );
+
+        $query->when($filters['type'] ?? false, fn ($query, $type) =>
+        $query->where(function ($query) use ($type) {
+            if ($type == 'incoming') {
+                $query->where('amount', '>=', '0');
+            } else if ($type == 'outgoing') {
+                $query->where('amount', '<', '0');
+            }
+        }));
     }
 }

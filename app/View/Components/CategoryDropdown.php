@@ -10,7 +10,8 @@ class CategoryDropdown extends Component
     public function render()
     {
         $categories = Category::all();
+        $currentCategory = Category::firstWhere('slug', request('category'));
 
-        return view('components.category-dropdown')->with(compact('categories'));
+        return view('components.category-dropdown')->with(compact('categories', 'currentCategory'));
     }
 }

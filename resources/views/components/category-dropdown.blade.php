@@ -7,15 +7,15 @@
 
     <x-slot name="content">
         <x-dropdown-link
-            href="{{ $path }}/?{{ http_build_query(request()->except('category')) }}"
+            href="{{ $path }}"
             :active="! isset($currentCategory)">All
         </x-dropdown-link>
 
         @foreach ($categories as $category)
-            <x-dropdown-link
+            <x-dropdown-item
                 href="{{ $path }}/?category={{ $category->slug }}"
                 :active="isset($currentCategory) && $currentCategory->is($category)">
-                {{ $category->title }}</x-dropdown-link>
+                {{ $category->title }}</x-dropdown-item>
         @endforeach
     </x-slot>
 </x-dropdown>
