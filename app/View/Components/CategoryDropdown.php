@@ -11,6 +11,6 @@ class CategoryDropdown extends Component
     {
         $categories = Category::all();
 
-        return view('components.category-dropdown')->with(compact('$categories'));
+        return view('components.category-dropdown')->with(compact('categories'));
     }
 }

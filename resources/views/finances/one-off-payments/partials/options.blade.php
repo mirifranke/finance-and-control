@@ -12,17 +12,7 @@
     </div>
 
     <div class="pr-4">
-        <x-dropdown align="right" width="48">
-            <x-slot name="trigger">
-                <x-dropdown-trigger>Category</x-dropdown-trigger>
-            </x-slot>
-
-            <x-slot name="content">
-                <x-dropdown-link href="#">Mobility</x-dropdown-link>
-                <x-dropdown-link href="#">Living</x-dropdown-link>
-                <x-dropdown-link href="#">Multimedia</x-dropdown-link>
-            </x-slot>
-        </x-dropdown>
+        <x-category-dropdown path="/finances/payments/one-off" />
     </div>
 
     <x-dropdown align="right" width="48">

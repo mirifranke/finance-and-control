@@ -10,6 +10,7 @@ class OneOffPaymentsController extends Controller
     public function __invoke()
     {
         $payments = Payment::where('type', Payment::TYPE_ONE_OFF)
+            ->filter(request(['category']))
             ->orderBy('starts_at', 'desc')
             ->get();
 
