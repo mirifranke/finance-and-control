@@ -6,8 +6,8 @@
         <x-column header>Datum</x-column>
     </tr>
     @foreach ($payments as $payment)
-    <x-row deleteAction="{{ route('payments.destroy', ['id' => $payment->id]) }}">
-        <x-column class="relative" x-data="formUpdateOneOffPayment()">
+    <x-row deleteAction="{{ route('payment.destroy', ['id' => $payment->id]) }}">
+        <x-column class="" x-data="formUpdateOneOffPayment()">
             <div @click="showForm()" class="hover:text-blue-600 hover:font-semibold">
                 {{ $payment->title }}
             </div>
@@ -22,6 +22,29 @@
     </x-row>
     @endforeach
 </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <script>
     function formUpdateOneOffPayment() {

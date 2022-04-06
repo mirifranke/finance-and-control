@@ -3,15 +3,9 @@
         @include('finances.regular-payments.partials.options')
     </x-slot>
 
-    <div class="relative" x-data="formCreateRegularPayment()">
-        <button x-show="! show" @click="showForm()" class="">
-            <x-icon name="add" />
-        </button>
-
-        <div x-show="show" class="max-w-fit px-6 pt-3">
-            <livewire:create-regular-payment />
-        </div>
-    </div>
+    <a href="{{ route('payments.regular.create') }}">
+        <x-icon name="add" />
+    </a>
 
     <div class="bg-white dark:bg-gray-900">
         @include('finances.regular-payments.partials.table', $payments)
@@ -19,35 +13,7 @@
 
     <div class="py-3 px-6">
         <div class="font-semibold items-center">
-            Monthly Regular Payments: {{ $total }} €
+            Regular Payments: {{ $total }} €
         </div>
     </div>
-
-    <script>
-        function formCreateRegularPayment() {
-            return {
-                show: false,
-
-                showForm() {
-                    this.show = true;
-                    // TODO: set focus on title
-                },
-
-                hideForm() {
-                    this.show = false;
-                },
-
-                create() {
-
-                    console.log('create');
-                },
-
-                cancel() {
-                    document.getElementById('title').value = '';
-                    document.getElementById('description').value = '';
-                    this.hideForm();
-                }
-            }
-        }
-    </script>
 </x-main-finance>

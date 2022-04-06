@@ -24,13 +24,15 @@ class StorePaymentRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required'],
-            'description' => ['nullable', 'max:2000'],
+            'type' => ['required'],
+            'isDebit' => ['required'],
+            'title' => ['required', 'min:4'],
+            'amount' => ['required'],
+            'category_id' => ['required'],
+            'description' => ['nullable', 'min:4'],
+            'interval' => ['required'],
             'starts_at' => ['required', 'date'],
-            'is_endless' => ['nullable'],
             'ends_at' => ['nullable', 'date'],
-            'amount' => ['required', 'numeric', 'min:0', 'not_in:0'],
-            'interval' => ['required',  Rule::in(FixCost::getIntervals())],
         ];
     }
 }

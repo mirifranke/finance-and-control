@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Payment;
 use Illuminate\Support\Facades\Route;
 
 
@@ -10,7 +11,9 @@ Route::get('/', function () {
 Route::middleware(['auth'])->group(function () {
     // DASHBOARD
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        $payment = Payment::find(1);
+
+        return view('dashboard')->with(compact('payment'));
     })->name('dashboard');
 
     // FINANCES

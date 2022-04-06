@@ -83,6 +83,11 @@ class Payment extends Model
         return '';
     }
 
+    public function isRegular()
+    {
+        return $this->type === Payment::TYPE_REGULAR;
+    }
+
     public function scopeFilter($query, array $filters)
     {
         $query->when(
