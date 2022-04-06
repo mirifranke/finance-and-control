@@ -7,14 +7,10 @@
     </tr>
     @foreach ($payments as $payment)
     <x-row deleteAction="{{ route('payment.destroy', ['id' => $payment->id]) }}">
-        <x-column class="" x-data="formUpdateOneOffPayment()">
-            <div @click="showForm()" class="hover:text-blue-600 hover:font-semibold">
+        <x-column>
+            <a href="#">
                 {{ $payment->title }}
-            </div>
-
-            <div x-show="show" class="max-w-fit">
-                <livewire:update-one-off-payment :payment="$payment" />
-            </div>
+            </a>
         </x-column>
         <x-column>{{ $payment->getAmountForUser() }}</x-column>
         <x-column>{{ $payment->category->title }}</x-column>
@@ -22,53 +18,3 @@
     </x-row>
     @endforeach
 </table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script>
-    function formUpdateOneOffPayment() {
-                return {
-                    show: false,
-
-                    showForm() {
-                        this.show = true;
-                        // TODO: set focus on title
-                    },
-
-                    hideForm() {
-                        this.show = false;
-                    },
-
-                    create() {
-                        console.log('create');
-                    },
-
-                    cancel() {
-                        document.getElementById('title').value = '';
-                        document.getElementById('description').value = '';
-                        this.hideForm();
-                    }
-                }
-            }
-</script>
