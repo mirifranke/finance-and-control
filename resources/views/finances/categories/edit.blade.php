@@ -4,8 +4,8 @@
         @csrf
         @method('PATCH')
 
-        <div class="flex">
-            <div class="grow grid grid-cols-3 gap-4">
+        <div class="flex-col">
+            <div class="flex flex-col md:grow md:grid md:grid-cols-3 gap-4">
                 {{-- Title --}}
                 <div>
                     <x-label for="title" class="">Title</x-label>
