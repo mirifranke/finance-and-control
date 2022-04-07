@@ -1,7 +1,7 @@
 @props(['header' => false])
 
 @php
-    $classes = 'text-left px-6 py-1';
+    $classes = 'text-left py-1';
 
     if ($header) {
         $classes .= ' text-gray-600 dark:text-gray-400 text-xs uppercase tracking-widest';

@@ -36,7 +36,7 @@
                     </div>
                 </div>
 
-                <div class="grow grid grid-cols-3 gap-4 pt-3">
+                <div class="flex flex-col md:grow md:grid md:grid-cols-3 gap-4 pt-3">
 
                     {{-- Title --}}
                     <div>

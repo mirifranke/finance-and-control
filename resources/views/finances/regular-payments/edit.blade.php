@@ -38,7 +38,7 @@
                     </div>
                 </div>
 
-                <div class="grow grid grid-cols-3 gap-4 pt-3">
+                <div class="flex flex-col md:grow md:grid md:grid-cols-3 gap-4 pt-3">
 
                     {{-- Title --}}
                     <div>
@@ -131,10 +131,10 @@
 
                     {{-- End Date --}}
                     <div>
-                        <template x-if="!isEndless">
+                        <template x-if="! isEndless">
                             <div>
                                 <x-label for="ends_at">End Date</x-label>
-                                <x-input id="ends_at" name="ends_at" type="date" class="w-full" value="{{ $payment->ends_at->toDateString() }}" />
+                                <x-input id="ends_at" name="ends_at" type="date" class="w-full" value="{{ $payment->ends_at ? $payment->ends_at->toDateString() : null }}" />
 
                                 @error('ends_at')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>

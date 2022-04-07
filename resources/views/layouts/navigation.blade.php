@@ -14,9 +14,6 @@
             <x-nav-link :href="route('finances')" :active="request()->routeIs('finances')">
                 {{ __('Finances') }}
             </x-nav-link>
-            <x-nav-link :href="route('tasks')" :active="request()->routeIs('tasks')">
-                {{ __('Tasks') }}
-            </x-nav-link>
         </div>
 
         <!-- Settings Dropdown -->
@@ -68,9 +65,6 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('finances')" :active="request()->routeIs('finances')">
                 {{ __('Finances') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('tasks')" :active="request()->routeIs('tasks')">
-                {{ __('Tasks') }}
             </x-responsive-nav-link>
         </div>
 

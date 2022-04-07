@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Payment extends Model
 {
+    const MAX_PER_PAGE = 15;
+
     const TYPE_REGULAR = 'regular';
     const TYPE_ONE_OFF = 'one-off';
 
@@ -107,7 +109,7 @@ class Payment extends Model
 
     public function isEndless(): int
     {
-        if ($this->starts_at) {
+        if ($this->ends_at != null) {
             return 0;
         }
         return 1;

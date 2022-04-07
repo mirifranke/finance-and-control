@@ -1,12 +1,12 @@
-<table>
+<table class="w-full">
     <tr class="border-b">
-        <x-column header class="whitespace-nowrap w-1/4">Titel</x-column>
-        <x-column header class="whitespace-nowrap w-1/4">Betrag</x-column>
-        <x-column header class="whitespace-nowrap w-1/4">Kategorie</x-column>
-        <x-column header class="whitespace-nowrap w-1/4">Intervall</x-column>
-        <x-column header class="whitespace-nowrap w-9/100">Stardatum</x-column>
-        <x-column header class="whitespace-nowrap w-9/100">Enddatum</x-column>
-        <x-column header class="whitespace-nowrap w-2/100"></x-column>
+        <x-column header class="w-33/100 md:w-1/5">Titel</x-column>
+        <x-column header class="w-33/100 md:w-15/100">Betrag</x-column>
+        <x-column header class="hidden md:table-cell w-1/5">Kategorie</x-column>
+        <x-column header class="w-33/100 md:w-15/100">Intervall</x-column>
+        <x-column header class="hidden md:table-cell w-14/100">Stardatum</x-column>
+        <x-column header class="hidden md:table-cell w-14/100">Enddatum</x-column>
+        <x-column header class="w-1/100 md:w-2/100"></x-column>
     </tr>
     @foreach ($payments as $payment)
     <x-row deleteAction="{{ route('payment.destroy', ['id' => $payment->id]) }}">
@@ -16,10 +16,10 @@
             </a>
         </x-column>
         <x-column>{{ $payment->getAmountForTable() }}</x-column>
-        <x-column>{{ $payment->category->title }}</x-column>
+        <x-column class="hidden md:table-cell">{{ $payment->category->title }}</x-column>
         <x-column>{{ $payment->interval }}</x-column>
-        <x-column>{{ $payment->getStartsAtForUser() }}</x-column>
-        <x-column>{{ $payment->getEndsAtForUser() }}</x-column>
+        <x-column class="hidden md:table-cell">{{ $payment->getStartsAtForUser() }}</x-column>
+        <x-column class="hidden md:table-cell">{{ $payment->getEndsAtForUser() }}</x-column>
     </x-row>
     @endforeach
 </table>

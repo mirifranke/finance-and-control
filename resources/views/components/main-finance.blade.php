@@ -29,6 +29,8 @@
                             :active="request()->routeIs('categories')" />
         </x-slot>
 
-        {{ $slot }}
+        <div class="pt-2 md:pt-0 flex flex-col space-y-3">
+            {{ $slot }}
+        </div>
     </x-setting>
 </x-app-layout>

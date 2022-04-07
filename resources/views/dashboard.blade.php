@@ -1,3 +1,3 @@
 <x-app-layout heading="Dashboard">
-    You're logged in!
+    Welcome, {{ auth()->user()->name }}!
 </x-app-layout>

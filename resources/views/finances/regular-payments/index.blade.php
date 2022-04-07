@@ -4,20 +4,14 @@
     </x-slot>
 
     <a href="{{ route('payments.regular.create') }}">
-        <x-icon name="add" />
+        <x-button class="w-full md:w-min">Create</x-button>
     </a>
 
-    <div class="bg-white dark:bg-gray-900">
-        @include('finances.regular-payments.partials.table', $payments)
+    @include('finances.regular-payments.partials.table', $payments)
 
-        <div class="px-6 py-3">
-            {{ $payments->links() }}
-        </div>
-    </div>
+    {{ $payments->links() }}
 
-    <div class="px-6">
-        <div class="font-semibold items-center">
-            Total amount: {{ $total }} €
-        </div>
+    <div class="font-semibold items-center">
+        Total amount: {{ $total }} €
     </div>
 </x-main-finance>

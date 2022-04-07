@@ -27,7 +27,7 @@
 
         <!-- Page Heading -->
         <header class="border-b border-gray-300">
-            <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto py-1 md:py-4 px-2 md:px-4 sm:px-6 lg:px-8">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight uppercase tracking-widest">
                     {{ $heading }}
                 </h2>
@@ -36,9 +36,9 @@
 
         <!-- Page Content -->
         <main>
-            <div class="py-12">
+            <div class="md:py-12">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div class="sm:rounded-lg p-6 bg-white">
+                    <div class="sm:rounded-lg p-2 md:p-6 bg-white">
                         {{ $slot }}
                     </div>
                 </div>

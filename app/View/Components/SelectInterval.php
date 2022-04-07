@@ -25,7 +25,6 @@ class SelectInterval extends Component
     public function render()
     {
         $intervals = Payment::INTERVALS;
-        logger($intervals);
 
         return view('components.select-interval')->with(compact('intervals'));
     }
