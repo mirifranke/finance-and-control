@@ -1,8 +1,11 @@
-<x-select wire:model.defer="interval" id="interval" name="interval">
-    <option value="daily">daily</option>
-    <option value="weekly">weekly</option>
-    <option value="monthly" selected>monthly</option>
-    <option value="quarterly">quarterly</option>
-    <option value="half-yearly">yearly</option>
-    <option value="yearly">yearly</option>
+@props(['currentInterval' => null])
+
+<x-select id="interval" name="interval">
+    <option value="null">select interval</option>
+    @foreach ($intervals as $interval)
+    <option value="{{ $interval }}" {{ $interval == $currentInterval ? 'selected ' : '' }}
+        >
+        {{ $interval }}
+    </option>
+    @endforeach
 </x-select>

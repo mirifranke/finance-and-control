@@ -1,10 +1,11 @@
-<x-main-finance heading="Create Regular Payment">
+<x-main-finance heading="Update Regular Payment">
     <div x-data="{
-            isDebit: false,
-            isEndless: true,
+            isDebit: {{ $payment->isDebit() }},
+            isEndless: {{ $payment->isEndless() }}
         }">
-        <form method="POST" action="/finances/payments">
+            <form method="POST" action="{{ route('payment.update', $payment) }}">
             @csrf
+            @method('PATCH')
 
             <input type="hidden" id="type" name="type" value="regular">
 
@@ -18,7 +19,7 @@
                                 name="isDebit"
                                 class="bg-gray-200 text-green-600 border-none"
                                 value="0"
-                                checked
+                                {{ !$payment->isDebit() ? 'checked' : '' }}
                             />
                             <span class="ml-2">Incoming</span>
                         </x-label>
@@ -30,6 +31,7 @@
                                 name="isDebit"
                                 class="bg-gray-200 text-red-600 border-none"
                                 value="1"
+                                {{ $payment->isDebit() ? 'checked' : '' }}
                             />
                             <span class="ml-2">Outgoing</span>
                         </x-label>
@@ -41,10 +43,10 @@
                     {{-- Title --}}
                     <div>
                         <x-label for="title" class="">Title</x-label>
-                        <x-input id="title" name="title" type="text" class="w-full" />
+                        <x-input id="title" name="title" type="text" class="w-full" value="{{ $payment->title }}" />
 
                         @error('title')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -52,39 +54,41 @@
                     <div>
                         <x-label for="amount" class="">Amount</x-label>
 
-                        <div
-                            class="relative border rounded-xl"
-                            :class="isDebit ? 'border-red-600' : 'border-green-600'"
-                        >
-                            <x-input id="amount" name="amount" type="text" class="pl-7" />
+                        <div class="relative border rounded-xl" :class="isDebit ? 'border-red-600' : 'border-green-600'">
+                            <x-input
+                                id="amount"
+                                name="amount"
+                                type="text"
+                                class="pl-7"
+                                value="{{ $payment->getAmountForForm() }}"
+                            />
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none w-full">
                                 <span class="text-gray-500 sm:text-sm">€</span>
                             </div>
                         </div>
 
                         @error('amount')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-
 
                     {{-- Category --}}
                     <div>
                         <x-label for="category_id">Category</x-label>
-                        <x-select-category />
+                        <x-select-category currentCategoryId="{{ $payment->category_id }}" />
 
                         @error('category_id')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
                     {{-- Description --}}
                     <div class="col-span-3">
                         <x-label for="description" class="">Description</x-label>
-                        <x-input id="description" name="description" type="text" class="w-full" />
+                        <x-input id="description" name="description" type="text" class="w-full" value="{{ $payment->description }}" />
 
                         @error('description')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -96,8 +100,8 @@
                                 type="checkbox"
                                 id="is_endless"
                                 class="bg-gray-100 rounded-xl border-none focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                checked
-                            >
+                                {{ $payment->isEndless() ? 'checked' : '' }}
+                                >
                             <x-label class="inline-block pl-1" for="is_endless">
                                 endless
                             </x-label>
@@ -106,28 +110,22 @@
 
                     {{-- Intervall --}}
                     <div>
-                        <x-label for="interval">Intervall</x-label>
-                        <x-select-interval currentInterval="month" />
+                        <x-label for="interval">Interval</x-label>
+                        <x-select-interval currentInterval="{{ $payment->interval }}" />
 
                         @error('interval')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
                     {{-- Start Date --}}
                     <div>
-                        <x-label for="starts_at" class="">Start Date</x-label>
+                        <x-label for="starts_at">Start Date</x-label>
 
-                        <x-input
-                            id="starts_at"
-                            name="starts_at"
-                            type="date"
-                            class="w-full"
-                            value="{{ Carbon\Carbon::now()->format('Y-m-d') }}"
-                        />
+                        <x-input id="starts_at" name="starts_at" type="date" value="{{ $payment->starts_at->toDateString() }}" />
 
                         @error('starts_at')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -136,10 +134,10 @@
                         <template x-if="!isEndless">
                             <div>
                                 <x-label for="ends_at">End Date</x-label>
-                                <x-input id="ends_at" name="ends_at" type="date" class="w-full" />
+                                <x-input id="ends_at" name="ends_at" type="date" class="w-full" value="{{ $payment->ends_at->toDateString() }}" />
 
                                 @error('ends_at')
-                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
                         </template>

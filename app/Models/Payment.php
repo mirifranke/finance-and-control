@@ -65,9 +65,18 @@ class Payment extends Model
         return date('d.m.Y', strtotime($this->starts_at));
     }
 
-    public function getAmountForUser()
+    public function getAmountForTable()
     {
         return number_format($this->amount / 100, 2, ',', '.') . ' €';
+    }
+
+    public function getAmountForForm()
+    {
+        $amount = $this->amount;
+        if ($this->amount < 0) {
+            $amount = $this->amount * (-1);
+        }
+        return substr_replace($amount, ',', -2, 0);
     }
 
     public function getEndsAtForUser()
@@ -86,6 +95,22 @@ class Payment extends Model
     public function isRegular()
     {
         return $this->type === Payment::TYPE_REGULAR;
+    }
+
+    public function isDebit(): int
+    {
+        if ($this->amount >= 0) {
+            return 0;
+        }
+        return 1;
+    }
+
+    public function isEndless(): int
+    {
+        if ($this->starts_at) {
+            return 0;
+        }
+        return 1;
     }
 
     public function scopeFilter($query, array $filters)

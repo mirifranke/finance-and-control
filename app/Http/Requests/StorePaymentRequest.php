@@ -29,7 +29,7 @@ class StorePaymentRequest extends FormRequest
             'title' => ['required', 'min:4'],
             'amount' => ['required'],
             'category_id' => ['required'],
-            'description' => ['nullable', 'min:4'],
+            'description' => ['nullable'],
             'interval' => ['required'],
             'starts_at' => ['required', 'date'],
             'ends_at' => ['nullable', 'date'],
