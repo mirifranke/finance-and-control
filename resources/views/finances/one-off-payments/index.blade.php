@@ -9,11 +9,15 @@
 
     <div class="bg-white dark:bg-gray-900">
         @include('finances.one-off-payments.partials.table')
+
+        <div class="px-6 py-3">
+            {{ $payments->links() }}
+        </div>
     </div>
 
-    <div class="py-3 px-6">
+    <div class="px-6">
         <div class="font-semibold items-center">
-            One-Off Payments: 3.6782 €
+            Total amount: {{ $total }} €
         </div>
     </div>
 </x-main-finance>

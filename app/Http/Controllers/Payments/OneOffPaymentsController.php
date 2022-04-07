@@ -12,7 +12,7 @@ class OneOffPaymentsController extends Controller
         $payments = Payment::where('type', Payment::TYPE_ONE_OFF)
             ->filter(request(['category', 'type']))
             ->orderBy('starts_at', 'desc')
-            ->get();
+            ->paginate(15);
 
         $total = 0;
         foreach ($payments as $payment) {

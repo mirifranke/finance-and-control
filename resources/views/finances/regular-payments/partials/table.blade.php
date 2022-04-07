@@ -1,11 +1,12 @@
-<table class="min-w-fit">
+<table>
     <tr class="border-b">
-        <x-column header>Titel</x-column>
-        <x-column header>Betrag</x-column>
-        <x-column header>Kategorie</x-column>
-        <x-column header>Intervall</x-column>
-        <x-column header>Stardatum</x-column>
-        <x-column header>Enddatum</x-column>
+        <x-column header class="whitespace-nowrap w-1/4">Titel</x-column>
+        <x-column header class="whitespace-nowrap w-1/4">Betrag</x-column>
+        <x-column header class="whitespace-nowrap w-1/4">Kategorie</x-column>
+        <x-column header class="whitespace-nowrap w-1/4">Intervall</x-column>
+        <x-column header class="whitespace-nowrap w-9/100">Stardatum</x-column>
+        <x-column header class="whitespace-nowrap w-9/100">Enddatum</x-column>
+        <x-column header class="whitespace-nowrap w-2/100"></x-column>
     </tr>
     @foreach ($payments as $payment)
     <x-row deleteAction="{{ route('payment.destroy', ['id' => $payment->id]) }}">

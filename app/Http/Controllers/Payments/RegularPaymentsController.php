@@ -12,7 +12,7 @@ class RegularPaymentsController extends Controller
         $payments = Payment::where('type', Payment::TYPE_REGULAR)
             ->filter(request(['category', 'type']))
             ->orderBy('category_id')
-            ->get();
+            ->paginate(15);
 
         $total = 0;
         foreach ($payments as $payment) {
