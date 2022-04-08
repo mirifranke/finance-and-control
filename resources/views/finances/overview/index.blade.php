@@ -23,28 +23,28 @@
             </tr>
             <tr>
                 <x-column>
-                    <a href="{{ route('payments.regular') }}" class="hover:text-blue-500">Incoming</a>
+                    <div class="hover:text-blue-500">Incoming</div>
                 </x-column>
 
-                <x-column>2.222 €</x-column>
+                <x-column class="text-right pr-3">{{ $regularCredit }} €</x-column>
 
                 <x-column>
-                    <a href="{{ route('payments.one-off') }}" class="hover:text-blue-500">Incoming</a>
+                    <div class="hover:text-blue-500">Incoming</div>
                 </x-column>
 
-                <x-column>2.222 €</x-column>
+                <x-column class="text-right pr-3">{{ $regularDebit }} €</x-column>
             </tr>
             <tr>
                 <x-column>
-                    <a href="{{ route('payments.regular') }}" class="hover:text-blue-500">Outgoing</a>
+                    <div class="hover:text-blue-500">Outgoing</div>
                 </x-column>
-                <x-column>1.567 €</x-column>
+                <x-column class="text-right pr-3">{{ $oneOffCredit }} €</x-column>
 
                 <x-column>
-                    <a href="{{ route('payments.one-off') }}" class="hover:text-blue-500">Outgoing</a>
+                    <div class="hover:text-blue-500">Outgoing</div>
                 </x-column>
 
-                <x-column>1.567 €</x-column>
+                <x-column class="text-right pr-3">{{ $oneOffDebit }} €</x-column>
             </tr>
         </table>
     </div>
@@ -57,17 +57,17 @@
             </tr>
             <tr>
                 <x-column>
-                    <a href="{{ route('payments.regular') }}" class="hover:text-blue-500">Incoming</a>
+                    <div class="hover:text-blue-500">Incoming</div>
                 </x-column>
 
-                <x-column>2.222 €</x-column>
+                <x-column class="text-right">{{ $regularCredit }} €</x-column>
             </tr>
             <tr>
                 <x-column>
-                    <a href="{{ route('payments.regular') }}" class="hover:text-blue-500">Outgoing</a>
+                    <div class="hover:text-blue-500">Outgoing</div>
                 </x-column>
 
-                <x-column>1.567 €</x-column>
+                <x-column class="text-right">{{ $regularDebit }} €</x-column>
             </tr>
         </table>
         <table>
@@ -77,17 +77,17 @@
             </tr>
             <tr>
                 <x-column>
-                    <a href="{{ route('payments.regular') }}" class="hover:text-blue-500">Incoming</a>
+                    <div class="hover:text-blue-500">Incoming</div>
                 </x-column>
 
-                <x-column>2.222 €</x-column>
+                <x-column class="text-right">{{ $oneOffCredit }} €</x-column>
             </tr>
             <tr>
                 <x-column>
-                    <a href="{{ route('payments.regular') }}" class="hover:text-blue-500">Outgoing</a>
+                    <div class="hover:text-blue-500">Outgoing</div>
                 </x-column>
 
-                <x-column>1.567 €</x-column>
+                <x-column class="text-right">{{ $oneOffDebit }} €</x-column>
             </tr>
         </table>
     </div>

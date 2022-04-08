@@ -7,6 +7,7 @@ use App\Http\Controllers\Categories\CreateCategoryController;
 use App\Http\Controllers\Categories\DeleteCategoryController;
 use App\Http\Controllers\Categories\UpdateCategoryController;
 use App\Http\Controllers\Categories\ViewCreateCategoryController;
+use App\Http\Controllers\Overview\OverviewController;
 use App\Http\Controllers\Payments\CreatePaymentController;
 use App\Http\Controllers\Payments\DeletePaymentController;
 use App\Http\Controllers\Payments\OneOffPaymentsController;
@@ -19,9 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 
 // OVERVIEW
-Route::get('/', function () {
-    return view('finances.overview.index');
-})->name('finances');
+Route::get('/', OverviewController::class)->name('finances');
 
 // PAYMENTS
 Route::get('/payments/regular/create', ViewCreateRegularPaymentController::class)

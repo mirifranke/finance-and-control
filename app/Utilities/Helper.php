@@ -26,6 +26,12 @@ class Helper
         return $cents;
     }
 
+    public static function getAmountForView($cents): string
+    {
+        return number_format($cents / 100, 2, ',', '.');
+    }
+
+
     public static function getCurrentMonth($date)
     {
         if (!$date) {

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,16 +15,12 @@ class Payment extends Model
     const TYPE_ONE_OFF = 'one-off';
 
     const INTERVAL_ONCE = 'once';
-    const INTERVAL_DAILY = 'daily';
-    const INTERVAL_WEEKLY = 'weekly';
     const INTERVAL_MONTHLY = 'monthly';
     const INTERVAL_QUARTERLY = 'quarterly';
     const INTERVAL_HALF_YEARLY = 'half-yearly';
     const INTERVAL_YEARLY = 'yearly';
 
     const INTERVALS = [
-        Payment::INTERVAL_DAILY,
-        Payment::INTERVAL_WEEKLY,
         Payment::INTERVAL_MONTHLY,
         Payment::INTERVAL_QUARTERLY,
         Payment::INTERVAL_HALF_YEARLY,
@@ -45,9 +42,7 @@ class Payment extends Model
     ];
 
     protected $casts = [
-        'title' => 'encrypted',
         'amount' => 'integer',
-        'description' => 'encrypted',
         'starts_at' => 'immutable_date',
         'ends_at' => 'immutable_date',
     ];
@@ -134,5 +129,118 @@ class Payment extends Model
                 $query->where('amount', '<', '0');
             }
         }));
+    }
+
+    public function isPayMonth(Carbon $date)
+    {
+        if ($this->starts_at->greaterThan($date)) {
+            return false;
+        }
+
+        if ($this->ends_at && $this->ends_at->lessThan($date)) {
+            return false;
+        }
+
+        if ($this->interval === Payment::INTERVAL_MONTHLY) {
+            return true;
+        }
+
+        if ($this->interval === Payment::INTERVAL_QUARTERLY) {
+            return $this->isQuarterlyPayMonth($date);
+        }
+
+        if ($this->interval === Payment::INTERVAL_HALF_YEARLY) {
+            return $this->isHalfYearlyPayMonth($date);
+        }
+
+        if ($this->interval === Payment::INTERVAL_YEARLY) {
+            return $this->isYearlyPayMonth($date);
+        }
+    }
+
+    private function isQuarterlyPayMonth(Carbon $date)
+    {
+        $quarter1 = Carbon::create($this->starts_at);
+        $quarter2 = $quarter1->copy()->addMonths(3);
+        $quarter3 = $quarter2->copy()->addMonths(3);
+        $quarter4 = $quarter3->copy()->addMonths(3);
+
+        if (
+            $date->month === $quarter1->month ||
+            $date->month === $quarter2->month ||
+            $date->month === $quarter3->month ||
+            $date->month === $quarter4->month
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function isHalfYearlyPayMonth(Carbon $date)
+    {
+        $term1 = Carbon::create($this->starts_at);
+        $term2 = $term1->copy()->addMonths(6);
+
+        if (
+            $date->month === $term1->month ||
+            $date->month === $term2->month
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function isYearlyPayMonth(Carbon $date)
+    {
+        $startDate = Carbon::createFromFormat('Y-m-d H:i:s', $this->starts_at)->firstOfMonth();
+
+        if ($startDate->month === $date->month) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function regularCreditOfMonth($date): int
+    {
+        return Payment::ofMonth($date, Payment::TYPE_REGULAR, false);
+    }
+
+    public static function regularDebitOfMonth($date)
+    {
+        return Payment::ofMonth($date, Payment::TYPE_REGULAR, true);
+    }
+
+    public static function oneOffCreditOfMonth($date)
+    {
+        return Payment::ofMonth($date, Payment::TYPE_ONE_OFF, false);
+    }
+
+    public static function oneOffDebitOfMonth($date)
+    {
+        return Payment::ofMonth($date, Payment::TYPE_ONE_OFF, true);
+    }
+
+    private static function ofMonth(
+        $date,
+        $type,
+        $isDebit
+    ) {
+        $collection = Payment::where('type', $type)
+            ->when(!$isDebit, function ($query) {
+                $query->where('amount', '>=', 0);
+            })
+            ->when($isDebit, function ($query) {
+                $query->where('amount', '<', 0);
+            })
+            ->get();
+
+        $amount = $collection->filter(function ($payment) use ($date) {
+            return $payment->isPayMonth($date);
+        })->sum('amount');
+
+        return $amount;
     }
 }

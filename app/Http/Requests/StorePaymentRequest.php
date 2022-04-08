@@ -26,7 +26,7 @@ class StorePaymentRequest extends FormRequest
         return [
             'type' => ['required'],
             'isDebit' => ['required'],
-            'title' => ['required', 'min:4'],
+            'title' => ['required'],
             'amount' => ['required'],
             'category_id' => ['required'],
             'description' => ['nullable'],
