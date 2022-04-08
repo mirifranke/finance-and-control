@@ -9,7 +9,7 @@
 
         <x-slot name="links">
             <div class="hidden sm:inline-block">
-                <x-setting-link :href="route('finances')" name="Overview" :active="request()->routeIs('finances')" />
+                <x-setting-link :href="route('payments.overview')" name="Overview" :active="request()->routeIs('payments.overview')" />
 
                 <x-setting-link :href="route('payments.regular')" name="Regular Payments"
                     :active="request()->routeIs('payments.regular')" />
@@ -33,8 +33,8 @@
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
-                        <x-setting-link :href="route('finances')" name="Overview"
-                            :active="request()->routeIs('finances')" />
+                        <x-setting-link :href="route('payments.overview')" name="Overview"
+                            :active="request()->routeIs('payments.overview')" />
 
                         <x-setting-link :href="route('payments.regular')" name="Regular Payments"
                             :active="request()->routeIs('payments.regular')" />
@@ -55,7 +55,7 @@
                     <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('finances')" :active="request()->routeIs('finances')">
+                    <x-responsive-nav-link :href="route('payments.overview')" :active="request()->routeIs('payments.overview')">
                         {{ __('Finances') }}
                     </x-responsive-nav-link>
                 </div>

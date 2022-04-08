@@ -22,10 +22,10 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('test'),
         ]);
 
-        Category::factory()->count(5)->create();
+        // Category::factory()->count(5)->create();
 
-        Payment::factory()
-            ->count(30)
-            ->create();
+        // Payment::factory()
+        //     ->count(30)
+        //     ->create();
     }
 }

@@ -34,6 +34,8 @@ class Helper
 
     public static function getCurrentMonth($date)
     {
+        logger('Helper#getCurrentMonth: $date = ' . $date);
+
         if (!$date) {
             return Carbon::now()->firstOfMonth();
         }

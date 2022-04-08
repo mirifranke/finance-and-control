@@ -1,7 +1,7 @@
 <x-main-finance heading="Overview">
     <div class="flex justify-center items-center py-3 md:pb-3">
         <div class="pb-1">
-            <a href="{{ route('finances', ['date' => $lastMonth]) }}">
+            <a href="{{ route('payments.overview', ['date' => $lastMonth]) }}">
                 <x-icon name="arrow-left" />
             </a>
         </div>
@@ -11,7 +11,7 @@
         </div>
 
         <div class="pb-1">
-            <a href="{{ route('finances', ['date' => $nextMonth]) }}">
+            <a href="{{ route('payments.overview', ['date' => $nextMonth]) }}">
                 <x-icon name="arrow-right" />
             </a>
         </div>
