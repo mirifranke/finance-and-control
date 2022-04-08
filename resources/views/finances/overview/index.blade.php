@@ -21,34 +21,46 @@
         <table class="min-w-full">
             <tr class="border-b">
                 <x-column header>Regular Payments</x-column>
-                <x-column header></x-column>
+                <x-column
+                    header
+                    class="text-right pr-5
+                        {{ $totalRegular >= 0 ? 'text-green-600' : 'text-red-600' }}"
+                    >
+                    {{ $totalRegular }} €
+                </x-column>
                 <x-column header>One-Off Payments</x-column>
-                <x-column header></x-column>
+                <x-column
+                    header
+                    class="text-right pr-5
+                        {{ $totalOneOff >= 0 ? 'text-green-600' : 'text-red-600' }}">
+                    {{ $totalOneOff }} €
+                </x-column>
             </tr>
             <tr>
-                <x-column>
-                    <div class="hover:text-blue-500">Incoming</div>
+                <x-column>Incoming</x-column>
+
+                <x-column class="text-right pr-5">
+                    {{ $regularCredit }} €
                 </x-column>
 
-                <x-column class="text-right pr-3">{{ $regularCredit }} €</x-column>
+                <x-column>Incoming</x-column>
 
-                <x-column>
-                    <div class="hover:text-blue-500">Incoming</div>
+                <x-column class="text-right pr-5">
+                    {{ $oneOffCredit }} €
                 </x-column>
-
-                <x-column class="text-right pr-3">{{ $regularDebit }} €</x-column>
             </tr>
             <tr>
-                <x-column>
-                    <div class="hover:text-blue-500">Outgoing</div>
-                </x-column>
-                <x-column class="text-right pr-3">{{ $oneOffCredit }} €</x-column>
+                <x-column>Outgoing</x-column>
 
-                <x-column>
-                    <div class="hover:text-blue-500">Outgoing</div>
+                <x-column class="text-right pr-5">
+                    {{ $regularDebit }} €
                 </x-column>
 
-                <x-column class="text-right pr-3">{{ $oneOffDebit }} €</x-column>
+                <x-column>Outgoing</x-column>
+
+                <x-column class="text-right pr-5">
+                    {{ $oneOffDebit }} €
+                </x-column>
             </tr>
         </table>
     </div>
@@ -57,7 +69,14 @@
         <table>
             <tr class="border-b">
                 <x-column header>Regular Payments</x-column>
-                <x-column header></x-column>
+
+                <x-column
+                    header
+                    class="text-right
+                    {{ $totalRegular >= 0 ? 'text-green-600' : 'text-red-600' }}"
+                    >
+                    {{ $totalRegular }} €
+                </x-column>
             </tr>
             <tr>
                 <x-column>
@@ -77,7 +96,13 @@
         <table>
             <tr class="border-b">
                 <x-column header>One-Off Payments</x-column>
-                <x-column header></x-column>
+                <x-column
+                    header
+                    class="text-right
+                    {{ $totalRegular >= 0 ? 'text-green-600' : 'text-red-600' }}"
+                    >
+                    {{ $totalOneOff }} €
+                </x-column>
             </tr>
             <tr>
                 <x-column>
@@ -94,5 +119,10 @@
                 <x-column class="text-right">{{ $oneOffDebit }} €</x-column>
             </tr>
         </table>
+    </div>
+
+    <div class="font-semibold text-center
+        {{ $total >= 0 ? 'text-green-600' : 'text-red-600' }}">
+        Total: {{ $total }} €
     </div>
 </x-main-finance>

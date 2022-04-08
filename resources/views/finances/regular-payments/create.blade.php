@@ -1,6 +1,6 @@
 <x-main-finance heading="Create Regular Payment">
     <div x-data="{
-            isDebit: false,
+            isDebit: true,
             isEndless: true,
         }">
         <form method="POST" action="/finances/payments">
@@ -18,7 +18,6 @@
                                 name="isDebit"
                                 class="bg-gray-200 text-green-600 border-none"
                                 value="0"
-                                checked
                             />
                             <span class="ml-2">Incoming</span>
                         </x-label>
@@ -30,6 +29,7 @@
                                 name="isDebit"
                                 class="bg-gray-200 text-red-600 border-none"
                                 value="1"
+                                checked
                             />
                             <span class="ml-2">Outgoing</span>
                         </x-label>
@@ -107,7 +107,7 @@
                     {{-- Intervall --}}
                     <div>
                         <x-label for="interval">Intervall</x-label>
-                        <x-select-interval currentInterval="month" />
+                        <x-select-interval currentInterval="monthly" />
 
                         @error('interval')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>

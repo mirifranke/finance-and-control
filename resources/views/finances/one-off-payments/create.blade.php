@@ -1,5 +1,5 @@
 <x-main-finance heading="Create One-Off Payment">
-    <div x-data="{ isDebit: false }">
+    <div x-data="{ isDebit: true }">
         <form method="POST" action="/finances/payments">
             @csrf
 
@@ -11,13 +11,13 @@
                     <div class="flex space-x-2 items-end">
                         <x-label class="inline-flex items-center">
                             <input @click="isDebit = false" type="radio" name="isDebit"
-                                class="bg-gray-200 text-green-600 border-none" value="0" checked />
+                                class="bg-gray-200 text-green-600 border-none" value="0" />
                             <span class="ml-2">Incoming</span>
                         </x-label>
 
                         <x-label class="inline-flex items-center">
                             <input @click="isDebit = true" type="radio" name="isDebit"
-                                class="bg-gray-200 text-red-600 border-none" value="1" />
+                                class="bg-gray-200 text-red-600 border-none" value="1" checked />
                             <span class="ml-2">Outgoing</span>
                         </x-label>
                     </div>

@@ -15,12 +15,14 @@ class Payment extends Model
     const TYPE_ONE_OFF = 'one-off';
 
     const INTERVAL_ONCE = 'once';
+    const INTERVAL_WEEKLY = 'weekly';
     const INTERVAL_MONTHLY = 'monthly';
     const INTERVAL_QUARTERLY = 'quarterly';
     const INTERVAL_HALF_YEARLY = 'half-yearly';
     const INTERVAL_YEARLY = 'yearly';
 
     const INTERVALS = [
+        Payment::INTERVAL_WEEKLY,
         Payment::INTERVAL_MONTHLY,
         Payment::INTERVAL_QUARTERLY,
         Payment::INTERVAL_HALF_YEARLY,
@@ -133,11 +135,7 @@ class Payment extends Model
 
     public function isPayMonth(Carbon $date)
     {
-        if ($this->starts_at->greaterThan($date)) {
-            return false;
-        }
-
-        if ($this->ends_at && $this->ends_at->lessThan($date)) {
+        if (!$this->isActive($date)) {
             return false;
         }
 
@@ -156,6 +154,19 @@ class Payment extends Model
         if ($this->interval === Payment::INTERVAL_YEARLY) {
             return $this->isYearlyPayMonth($date);
         }
+    }
+
+    private function isActive(Carbon $date)
+    {
+        if ($this->starts_at->greaterThan($date)) {
+            return false;
+        }
+
+        if ($this->ends_at && $this->ends_at->lessThan($date)) {
+            return false;
+        }
+
+        return true;
     }
 
     private function isQuarterlyPayMonth(Carbon $date)
@@ -221,6 +232,13 @@ class Payment extends Model
     public static function oneOffDebitOfMonth($date)
     {
         return Payment::ofMonth($date, Payment::TYPE_ONE_OFF, true);
+    }
+
+    public static function weeklyDebitOfMonth($date): int
+    {
+
+
+        return 0;
     }
 
     private static function ofMonth(

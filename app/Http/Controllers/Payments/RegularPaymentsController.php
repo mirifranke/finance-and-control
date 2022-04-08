@@ -11,7 +11,8 @@ class RegularPaymentsController extends Controller
     {
         $payments = Payment::where('type', Payment::TYPE_REGULAR)
             ->filter(request(['category', 'type']))
-            ->orderBy('category_id')
+            // ->orderBy('category_id')
+            ->orderBy('created_at', 'DESC')
             ->paginate(Payment::MAX_PER_PAGE);
 
         $total = 0;
