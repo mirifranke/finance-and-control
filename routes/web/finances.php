@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 
 // OVERVIEW
-Route::get('/', OverviewController::class)->name('finances');
+Route::get('/{date?}', OverviewController::class)->name('finances');
 
 // PAYMENTS
 Route::get('/payments/regular/create', ViewCreateRegularPaymentController::class)

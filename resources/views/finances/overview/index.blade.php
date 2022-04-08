@@ -1,15 +1,19 @@
 <x-main-finance heading="Overview">
     <div class="flex justify-center items-center py-3 md:pb-3">
         <div class="pb-1">
-            <x-icon name="arrow-left" />
+            <a href="{{ route('finances', ['date' => $lastMonth]) }}">
+                <x-icon name="arrow-left" />
+            </a>
         </div>
 
         <div class="text-gray-800 uppercase font-bold text-center px-2">
-            März 2022
+            {{ $currentDate->monthName . ' ' . $currentDate->year }}
         </div>
 
         <div class="pb-1">
-            <x-icon name="arrow-right" />
+            <a href="{{ route('finances', ['date' => $nextMonth]) }}">
+                <x-icon name="arrow-right" />
+            </a>
         </div>
     </div>
 

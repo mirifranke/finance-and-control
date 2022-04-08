@@ -28,29 +28,5 @@ class OverviewController extends Controller
             'oneOffCredit',
             'oneOffDebit',
         ));
-
-        // $fixCosts = FixCost::ofMonth($currentDate);
-        // $petitions = Petition::ofMonthWithCosts($currentDate);
-
-        // $totalFixCostAmount = $fixCosts->sum('amount');
-        // $totalPetitionAmount = $petitions->sum('amount');
-
-        // $credits = Earning::ofMonth($currentDate)->sum('amount');
-        // $debits = $totalFixCostAmount + $totalPetitionAmount;
-        // $available = $credits - $debits;
-
-        // return view('cost-overview.index')
-        //     ->with(compact(
-        //         'currentDate',
-        //         'lastMonth',
-        //         'nextMonth',
-        //         'fixCosts',
-        //         'petitions',
-        //         'totalFixCostAmount',
-        //         'totalPetitionAmount',
-        //         'debits',
-        //         'credits',
-        //         'available'
-        //     ));
     }
 }
