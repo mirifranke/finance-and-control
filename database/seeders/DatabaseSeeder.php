@@ -22,10 +22,10 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('test'),
         ]);
 
-        // Category::factory()->count(5)->create();
-
-        // Payment::factory()
-        //     ->count(30)
-        //     ->create();
+        User::factory()->create([
+            'name' => 'Belve',
+            'email' => 'art1san@pm.me',
+            'password' => bcrypt('test'),
+        ]);
     }
 }
