@@ -15,7 +15,10 @@ Route::middleware(['auth'])->group(function () {
     })->name('dashboard');
 
     // FINANCES
-    Route::prefix('/finances')->group(__DIR__ . '/web/finances.php');
+    Route::prefix('finances')->group(__DIR__ . '/web/finances.php');
+
+    // PREFERENCES
+    Route::prefix('settings')->group(__DIR__ . '/web/settings.php');
 });
 
 require __DIR__ . '/auth.php';

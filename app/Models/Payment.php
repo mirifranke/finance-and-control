@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use App\Utilities\Helper;
 use Carbon\Carbon;
+use Carbon\CarbonInterval;
+use DatePeriod;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -169,6 +172,21 @@ class Payment extends Model
         return true;
     }
 
+    // TODO: calculate weekly payment
+
+    // public function getCurrentAmount($date)
+    // {
+    //     if (!$this->isActive($date)) {
+    //         return 0;
+    //     }
+
+    //     if ($this->interval === Payment::INTERVAL_ONCE) {
+    //         if ($this->starts_at) {
+    //             # code...
+    //         }
+    //     }
+    // }
+
     private function isQuarterlyPayMonth(Carbon $date)
     {
         $quarter1 = Carbon::create($this->starts_at);
@@ -216,6 +234,8 @@ class Payment extends Model
 
     public static function regularCreditOfMonth($date): int
     {
+        Payment::weeklyCreditOfMonth($date);
+
         return Payment::ofMonth($date, Payment::TYPE_REGULAR, false);
     }
 
@@ -234,9 +254,22 @@ class Payment extends Model
         return Payment::ofMonth($date, Payment::TYPE_ONE_OFF, true);
     }
 
-    public static function weeklyDebitOfMonth($date): int
+    public static function weeklyCreditOfMonth($date): int
     {
+        logger('Payment#weeklyCreditOfMonth: $date = ' . $date);
 
+        $collection = Payment::where('interval', 'weekly')
+            ->where('amount', '<', 0)
+            ->get();
+
+        $collection = $collection->filter(function ($payment) use ($date) {
+            return $payment->isActive($date);
+        });
+
+        $fridays = Helper::getFridaysOfMonth($date);
+        foreach ($fridays as $friday) {
+            logger($friday);
+        }
 
         return 0;
     }

@@ -2,6 +2,8 @@
 
 namespace App\Utilities;
 
+use Carbon\CarbonInterval;
+use DatePeriod;
 use Illuminate\Support\Carbon;
 
 class Helper
@@ -31,7 +33,6 @@ class Helper
         return number_format($cents / 100, 2, ',', '.');
     }
 
-
     public static function getCurrentMonth($date)
     {
         if (!$date) {
@@ -49,5 +50,28 @@ class Helper
     public static function getNextMonth($currentDate)
     {
         return $currentDate->copy()->addMonth()->format('d-m-Y');
+    }
+
+    public static function getFridaysOfMonth($date)
+    {
+        $firstFridayInCurrentMonth = $date->copy()->firstOfMonth(Carbon::FRIDAY);
+        $firstFridayInNextMonth = $date->copy()->addMonth()->firstOfMonth(Carbon::FRIDAY);
+
+        return new DatePeriod(
+            $firstFridayInCurrentMonth,
+            CarbonInterval::week(),
+            $firstFridayInNextMonth
+        );
+    }
+
+    public function getCurrentMonthPeriod($date): DatePeriod
+    {
+        $startDate = $date->copy()->firstOfMonth();
+        $endDate = $date->copy()->addMonth()->firstOfMonth();
+
+        return new DatePeriod(
+            $startDate,
+            $endDate
+        );
     }
 }
