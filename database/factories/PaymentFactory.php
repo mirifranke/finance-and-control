@@ -26,9 +26,9 @@ class PaymentFactory extends Factory
             $ends_at = $date1;
         }
 
-        $type = $this->faker->randomElement([Payment::TYPE_REGULAR, Payment::TYPE_ONE_OFF]);
+        $type = $this->faker->randomElement([Payment::PAYMENT_TYPE_REGULAR, Payment::PAYMENT_TYPE_ONE_OFF]);
 
-        if ($type === Payment::TYPE_REGULAR) {
+        if ($type === Payment::PAYMENT_TYPE_REGULAR) {
             $interval = $this->faker->randomElement(Payment::INTERVALS);
         } else {
             $interval = Payment::INTERVAL_ONCE;

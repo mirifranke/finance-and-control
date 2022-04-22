@@ -9,11 +9,6 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
     public function run()
     {
         User::factory()->create([
@@ -22,10 +17,8 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('test'),
         ]);
 
-        User::factory()->create([
-            'name' => 'Belve',
-            'email' => 'art1san@pm.me',
-            'password' => bcrypt('test'),
+        $this->call([
+            SqlFileSeeder::class
         ]);
     }
 }

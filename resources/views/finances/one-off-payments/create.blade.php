@@ -56,7 +56,7 @@
                     {{-- Category --}}
                     <div>
                         <x-label for="category_id">Category</x-label>
-                        <x-select-category />
+                        <x-select-ledger-category />
 
                         @error('category_id')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>

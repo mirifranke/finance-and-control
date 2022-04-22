@@ -1,6 +1,6 @@
 @props(['heading'])
 
-<x-app-layout heading="Finances">
+<x-app-layout heading="Ledger Account">
     <x-setting heading="{{ $heading }}">
 
         <x-slot name="options">
