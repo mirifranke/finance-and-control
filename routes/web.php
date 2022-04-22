@@ -17,6 +17,12 @@ Route::middleware(['auth'])->group(function () {
     // FINANCES
     Route::prefix('finances')->group(__DIR__ . '/web/finances.php');
 
+    // LEDGER
+    Route::prefix('ledger')->name('ledger.')->group(__DIR__ . '/web/ledger.php');
+
+    // BUDGET
+    Route::prefix('budget')->name('budget.')->group(__DIR__ . '/web/budget.php');
+
     // PREFERENCES
     Route::prefix('settings')->group(__DIR__ . '/web/settings.php');
 });

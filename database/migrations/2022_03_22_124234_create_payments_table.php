@@ -17,8 +17,9 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('creator_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->string('type')->default(Payment::TYPE_REGULAR);
+            $table->foreignId('creator_id')->references('id')->on('users')
+                ->cascadeOnDelete();
+            $table->string('type')->default(Payment::PAYMENT_TYPE_REGULAR);
             $table->text('title');
             $table->integer('amount')->default(0);
             $table->foreignIdFor(Category::class);

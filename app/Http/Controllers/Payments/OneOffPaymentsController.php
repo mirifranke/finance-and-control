@@ -9,7 +9,8 @@ class OneOffPaymentsController extends Controller
 {
     public function __invoke()
     {
-        $payments = Payment::where('type', Payment::TYPE_ONE_OFF)
+        $payments = Payment::where('account_type', Payment::ACCOUNT_TYPE_MAIN)
+            ->where('payment_type', Payment::PAYMENT_TYPE_ONE_OFF)
             ->filter(request(['category', 'type']))
             ->orderBy('starts_at', 'desc')
             ->paginate(Payment::MAX_PER_PAGE);

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,6 +12,7 @@ class Category extends Model
 
     protected $fillable = [
         'creator_id',
+        'account_type',
         'title',
         'slug',
         'description',

@@ -11,8 +11,17 @@
             <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-nav-link>
-            <x-nav-link :href="route('payments.overview')" :active="request()->routeIs('payments.overview')">
+            <x-nav-link :href="route('payments.overview')"
+                :active="request()->routeIs('payments.*')">
                 {{ __('Finances') }}
+            </x-nav-link>
+            <x-nav-link :href="route('ledger.overview')"
+                :active="request()->routeIs('ledger.*')">
+                {{ __('Ledger Account') }}
+            </x-nav-link>
+            <x-nav-link :href="route('budget.overview')"
+                :active="request()->routeIs('budget.*')">
+                {{ __('Budget Account') }}
             </x-nav-link>
         </div>
 
@@ -65,7 +74,14 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('payments.overview')" :active="request()->routeIs('payments.overview')">
-                {{ __('Finances') }}
+                {{ __('Ledger Account') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('ledger.payments.regular')" :active="request()->routeIs('ledger.*')">
+                {{ __('Ledger Account') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('budget.overview')"
+                :active="request()->routeIs('budget.*')">
+                {{ __('Budget Account') }}
             </x-responsive-nav-link>
         </div>
 

@@ -15,7 +15,8 @@ class CreatePaymentController extends Controller
 
         $payment = Payment::create([
             'creator_id' => auth()->id(),
-            'type' => $request->input('type'),
+            'account_type' => Payment::ACCOUNT_TYPE_MAIN,
+            'payment_type' => $request->input('type'),
             'title' => $request->input('title'),
             'amount' => $amountInCents,
             'category_id' => $request->input('category_id'),

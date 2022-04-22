@@ -4,8 +4,6 @@ namespace App\Models;
 
 use App\Utilities\Helper;
 use Carbon\Carbon;
-use Carbon\CarbonInterval;
-use DatePeriod;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,8 +12,12 @@ class Payment extends Model
 {
     const MAX_PER_PAGE = 15;
 
-    const TYPE_REGULAR = 'regular';
-    const TYPE_ONE_OFF = 'one-off';
+    const ACCOUNT_TYPE_MAIN = 'main';
+    const ACCOUNT_TYPE_LEDGER = 'ledger';
+    const ACCOUNT_TYPE_BUDGET = 'budget';
+
+    const PAYMENT_TYPE_REGULAR = 'regular';
+    const PAYMENT_TYPE_ONE_OFF = 'one-off';
 
     const INTERVAL_ONCE = 'once';
     const INTERVAL_WEEKLY = 'weekly';
@@ -36,7 +38,9 @@ class Payment extends Model
 
     protected $fillable = [
         'creator_id',
-        'type',
+        'account_type',
+        'payment_type',
+        'shop_id',
         'title',
         'amount',
         'category_id',
@@ -55,6 +59,13 @@ class Payment extends Model
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    public function shop(): BelongsTo
+    {
+        return $this->belongsTo(Shop::class)->withDefault([
+            'title' => 'unknown'
+        ]);
     }
 
     public function category(): BelongsTo
@@ -96,7 +107,7 @@ class Payment extends Model
 
     public function isRegular()
     {
-        return $this->type === Payment::TYPE_REGULAR;
+        return $this->payment_type === Payment::PAYMENT_TYPE_REGULAR;
     }
 
     public function isDebit(): int
@@ -236,22 +247,22 @@ class Payment extends Model
     {
         Payment::weeklyCreditOfMonth($date);
 
-        return Payment::ofMonth($date, Payment::TYPE_REGULAR, false);
+        return Payment::ofMonth($date, Payment::PAYMENT_TYPE_REGULAR, false);
     }
 
     public static function regularDebitOfMonth($date)
     {
-        return Payment::ofMonth($date, Payment::TYPE_REGULAR, true);
+        return Payment::ofMonth($date, Payment::PAYMENT_TYPE_REGULAR, true);
     }
 
     public static function oneOffCreditOfMonth($date)
     {
-        return Payment::ofMonth($date, Payment::TYPE_ONE_OFF, false);
+        return Payment::ofMonth($date, Payment::PAYMENT_TYPE_ONE_OFF, false);
     }
 
     public static function oneOffDebitOfMonth($date)
     {
-        return Payment::ofMonth($date, Payment::TYPE_ONE_OFF, true);
+        return Payment::ofMonth($date, Payment::PAYMENT_TYPE_ONE_OFF, true);
     }
 
     public static function weeklyCreditOfMonth($date): int
@@ -279,7 +290,7 @@ class Payment extends Model
         $type,
         $isDebit
     ) {
-        $collection = Payment::where('type', $type)
+        $collection = Payment::where('payment_type', $type)
             ->when(!$isDebit, function ($query) {
                 $query->where('amount', '>=', 0);
             })

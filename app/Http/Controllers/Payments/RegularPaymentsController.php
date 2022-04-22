@@ -9,7 +9,8 @@ class RegularPaymentsController extends Controller
 {
     public function __invoke()
     {
-        $payments = Payment::where('type', Payment::TYPE_REGULAR)
+        $payments = Payment::where('account_type', Payment::ACCOUNT_TYPE_MAIN)
+            ->where('payment_type', Payment::PAYMENT_TYPE_REGULAR)
             ->filter(request(['category', 'type']))
             // ->orderBy('category_id')
             ->orderBy('created_at', 'DESC')
