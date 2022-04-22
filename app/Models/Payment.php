@@ -12,7 +12,6 @@ class Payment extends Model
 {
     const MAX_PER_PAGE = 15;
 
-    const ACCOUNT_TYPE_MAIN = 'main';
     const ACCOUNT_TYPE_LEDGER = 'ledger';
     const ACCOUNT_TYPE_BUDGET = 'budget';
 

@@ -9,7 +9,7 @@
     </tr>
 
     @foreach ($payments as $payment)
-        <x-row deleteAction="{{ route('payment.destroy', ['id' => $payment->id]) }}">
+        <x-row deleteAction="{{ route('budget.payment.destroy', ['id' => $payment->id]) }}">
             <x-column>
                 <a href="{{ route('budget.payment.view-edit', $payment) }}">
                     {{ $payment->shop->title }}

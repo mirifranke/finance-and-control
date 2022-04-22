@@ -14,9 +14,6 @@ Route::middleware(['auth'])->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
-    // FINANCES
-    Route::prefix('finances')->group(__DIR__ . '/web/finances.php');
-
     // LEDGER
     Route::prefix('ledger')->name('ledger.')->group(__DIR__ . '/web/ledger.php');
 
