@@ -6,9 +6,9 @@
     </tr>
 
     @foreach ($categories as $category)
-        <x-row deleteAction="{{ route('categories.destroy', ['id' => $category->id]) }}">
+        <x-row deleteAction="{{ route('budget.category.destroy', ['id' => $category->id]) }}">
             <x-column>
-                <a href="{{ route('category.show', $category) }}">
+                <a href="{{ route('budget.category.view-edit', $category) }}">
                     {{ $category->title }}
                 </a>
             </x-column>

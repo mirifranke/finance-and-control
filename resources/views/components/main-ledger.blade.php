@@ -52,7 +52,7 @@
                     <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('payments.overview')" :active="request()->routeIs('payments.overview')">
+                    <x-responsive-nav-link :href="route('ledger.overview')" :active="request()->routeIs('ledger.overview')">
                         {{ __('Finances') }}
                     </x-responsive-nav-link>
                 </div>

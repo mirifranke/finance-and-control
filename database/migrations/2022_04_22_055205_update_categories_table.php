@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::table('categories', function (Blueprint $table) {
             $table->after('creator_id', function ($table) {
-                $table->string('account_type')->default(Payment::ACCOUNT_TYPE_MAIN);
+                $table->string('account_type')->default(Payment::ACCOUNT_TYPE_LEDGER);
             });
         });
     }

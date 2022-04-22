@@ -25,7 +25,7 @@ class SelectLedgerCategory extends Component
      */
     public function render()
     {
-        $categories = Category::where('account_type', Payment::ACCOUNT_TYPE_MAIN)->get();
+        $categories = Category::where('account_type', Payment::ACCOUNT_TYPE_LEDGER)->get();
 
         return view('components.select-ledger-category')->with(compact('categories'));
     }
