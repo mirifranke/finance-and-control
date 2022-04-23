@@ -2,13 +2,10 @@
 
 namespace Tests\Feature\Budget;
 
-use App\Models\Category;
 use App\Models\Payment;
-use App\Models\Shop;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Test\Helpers\Helpers;
+use Tests\Helpers\Helpers;
 use Tests\TestCase;
 
 class PaymentBudgetTest extends TestCase
@@ -38,10 +35,11 @@ class PaymentBudgetTest extends TestCase
     {
         $user = User::factory()->create();
         $expected = Helpers::buildBudgetPayment(1234);
+        $input = Helpers::getInput($expected);
 
         $this->actingAs($user)->postJson(
             route('budget.payment.create'),
-            Helpers::getInput($expected, 0)
+            $input
         );
 
         $actual = Payment::first();
@@ -103,7 +101,7 @@ class PaymentBudgetTest extends TestCase
     public function an_unauthorized_user_cannot_create_a_budget_payment()
     {
         $payment = Helpers::buildBudgetPayment(1234);
-        $input = Helpers::getInput($payment, 0);
+        $input = Helpers::getInput($payment);
 
         $this->postJson(
             route('budget.payment.create'),

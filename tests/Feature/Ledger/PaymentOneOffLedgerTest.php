@@ -2,13 +2,10 @@
 
 namespace Tests\Feature\Ledger;
 
-use App\Models\Category;
 use App\Models\Payment;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Test\Helpers\Helpers;
+use Tests\Helpers\Helpers;
 use Tests\TestCase;
 
 class PaymentOneOffLedgerTest extends TestCase
@@ -37,22 +34,12 @@ class PaymentOneOffLedgerTest extends TestCase
     public function it_creates_an_incoming_one_off_ledger_payment()
     {
         $user = User::factory()->create();
-
         $expected = Helpers::buildOneOffLedgerPayment(1234);
+        $input = Helpers::getInput($expected);
 
         $this->actingAs($user)->postJson(
             route('ledger.payment.create'),
-            [
-                'type' => $expected->payment_type,
-                'isDebit' => 0,
-                'shop_id' => $expected->shop_id,
-                'title' => $expected->title,
-                'amount' => $expected->amount / 100,
-                'category_id' => $expected->category_id,
-                'description' => $expected->description,
-                'interval' => $expected->interval,
-                'starts_at' => $expected->starts_at->toDateString(),
-            ]
+            $input
         );
 
         $actual = Payment::first();
@@ -63,22 +50,12 @@ class PaymentOneOffLedgerTest extends TestCase
     public function it_creates_an_outgoing_one_off_ledger_payment()
     {
         $user = User::factory()->create();
-
         $expected = Helpers::buildOneOffLedgerPayment(-4321);
+        $input = Helpers::getInput($expected);
 
         $this->actingAs($user)->postJson(
             route('ledger.payment.create'),
-            [
-                'type' => $expected->payment_type,
-                'isDebit' => 1,
-                'shop_id' => $expected->shop_id,
-                'title' => $expected->title,
-                'amount' => $expected->amount / (-100),
-                'category_id' => $expected->category_id,
-                'description' => $expected->description,
-                'interval' => $expected->interval,
-                'starts_at' => $expected->starts_at->toDateString(),
-            ]
+            $input
         );
 
         $actual = Payment::first();
@@ -89,45 +66,34 @@ class PaymentOneOffLedgerTest extends TestCase
     public function it_updates_an_one_off_ledger_payment()
     {
         $user = User::factory()->create();
-
-        $payment = Helpers::createOneOffLedgerPayment(-4321);
+        $payment = Helpers::createOneOffLedgerPayment();
+        $input = Helpers::getInputWithChanges($payment, [
+            'isDebit' => true,
+            'amount' => 25,
+            'description' => 'My Updated Description',
+        ]);
 
         $this->actingAs($user)->patchJson(
             route('ledger.payment.update', $payment),
-            [
-                'type' => $payment->payment_type,
-                'isDebit' => $payment->isDebit(),
-                'title' => 'updated title',
-                'amount' => 15,
-                'category_id' => $payment->category->id,
-                'description' => $payment->description,
-                'interval' => $payment->interval,
-                'starts_at' => $payment->starts_at,
-            ]
+            $input
         );
 
         $actual = Payment::find($payment->id);
-
-        $this->assertNotNull($actual);
-        $this->assertEquals('updated title', $actual->title);
-        $this->assertEquals(-1500, $actual->amount);
+        $this->assertEquals(-2500, $actual->amount);
+        $this->assertEquals($input['description'], $actual->description);
     }
 
     /** @test */
     public function it_deletes_an_one_off_ledger_payment()
     {
         $user = User::factory()->create();
-        $payment = Payment::factory()->create([
-            'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
-            'payment_type' => Payment::PAYMENT_TYPE_ONE_OFF,
-        ]);
+        $payment = Helpers::createOneOffLedgerPayment();
 
         $this->actingAs($user)->deleteJson(
             route('ledger.payment.destroy', $payment)
         );
 
         $actual = Payment::find($payment->id);
-
         $this->assertNull($actual);
     }
 
@@ -135,21 +101,12 @@ class PaymentOneOffLedgerTest extends TestCase
     /** @test */
     public function an_unauthorized_user_cannot_create_a_ledger_payment()
     {
-        $category = Category::factory()->create();
+        $payment = Helpers::buildOneOffLedgerPayment(1234);
+        $input = Helpers::getInput($payment);
 
         $this->postJson(
             route('ledger.payment.create'),
-            [
-                'type' => Payment::PAYMENT_TYPE_ONE_OFF,
-                'isDebit' => 0,
-                'shop_id' => null,
-                'title' => 'title',
-                'amount' => 1234,
-                'category_id' => $category->category_id,
-                'description' => 'description',
-                'interval' => Payment::INTERVAL_ONCE,
-                'starts_at' => Carbon::now()->setTime(0, 0),
-            ]
+            $input
         );
 
         $actual = Payment::first();
@@ -159,23 +116,14 @@ class PaymentOneOffLedgerTest extends TestCase
     /** @test */
     public function an_unauthorized_user_cannot_update_a_ledger_payment()
     {
-        $payment = Payment::factory()->create([
-            'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
+        $payment = Helpers::createOneOffLedgerPayment();
+        $input = Helpers::getInputWithChanges($payment, [
+            'description' => 'My Updated Description',
         ]);
 
         $this->patchJson(
             route('ledger.payment.update', $payment),
-            [
-                'type' => $payment->payment_type,
-                'isDebit' => 0,
-                'shop_id' => null,
-                'title' => 'title',
-                'amount' => 1234,
-                'category_id' => $payment->category_id,
-                'description' => 'description',
-                'interval' => $payment->interval,
-                'starts_at' => $payment->starts_at->toDateString(),
-            ]
+            $input
         );
 
         $actual = Payment::find($payment->id);
@@ -187,9 +135,7 @@ class PaymentOneOffLedgerTest extends TestCase
     /** @test */
     public function an_unauthorized_user_cannot_delete_a_ledger_payment()
     {
-        $payment = Payment::factory()->create([
-            'account_type' => Payment::ACCOUNT_TYPE_LEDGER
-        ]);
+        $payment = Helpers::createOneOffLedgerPayment();
 
         $this->deleteJson(
             route('ledger.payment.destroy', $payment)

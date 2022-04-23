@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\Helpers;
+namespace Tests\Helpers;
 
 use App\Models\Category;
 use App\Models\Payment;
@@ -70,9 +70,9 @@ class Helpers
         );
     }
 
-    public static function createOneOffLedgerPayment(int $amount)
+    public static function createOneOffLedgerPayment()
     {
-        $payment = self::buildOneOffLedgerPayment($amount);
+        $payment = self::buildOneOffLedgerPayment(999999);
         self::save($payment);
 
         return $payment;
