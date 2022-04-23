@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\Category;
 use App\Models\Payment;
 use App\Models\Shop;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -26,6 +27,15 @@ abstract class TestCase extends BaseTestCase
     }
 
     protected function assertShopsEqual(Shop $expected, Shop $actual)
+    {
+        $this->assertEquals($expected->user_id, $actual->user_id);
+        $this->assertEquals($expected->account_type, $actual->account_type);
+        $this->assertEquals($expected->title, $actual->title);
+        $this->assertEquals($expected->slug, $actual->slug);
+        $this->assertEquals($expected->description, $actual->description);
+    }
+
+    protected function assertCategoryEqual(Category $expected, Category $actual)
     {
         $this->assertEquals($expected->user_id, $actual->user_id);
         $this->assertEquals($expected->account_type, $actual->account_type);
