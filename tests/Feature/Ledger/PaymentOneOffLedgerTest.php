@@ -97,9 +97,8 @@ class PaymentOneOffLedgerTest extends TestCase
         $this->assertNull($actual);
     }
 
-
     /** @test */
-    public function an_unauthorized_user_cannot_create_a_ledger_payment()
+    public function an_unauthorized_user_cannot_create_an_one_off_ledger_payment()
     {
         $payment = Helpers::buildOneOffLedgerPayment(1234);
         $input = Helpers::getInput($payment);
@@ -114,7 +113,7 @@ class PaymentOneOffLedgerTest extends TestCase
     }
 
     /** @test */
-    public function an_unauthorized_user_cannot_update_a_ledger_payment()
+    public function an_unauthorized_user_cannot_update_an_one_off_ledger_payment()
     {
         $payment = Helpers::createOneOffLedgerPayment();
         $input = Helpers::getInputWithChanges($payment, [
@@ -133,7 +132,7 @@ class PaymentOneOffLedgerTest extends TestCase
     }
 
     /** @test */
-    public function an_unauthorized_user_cannot_delete_a_ledger_payment()
+    public function an_unauthorized_user_cannot_delete_an_one_off_ledger_payment()
     {
         $payment = Helpers::createOneOffLedgerPayment();
 

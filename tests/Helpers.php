@@ -50,9 +50,9 @@ class Helpers
         );
     }
 
-    public static function createRegularLedgerPayment(int $amount, bool $endless = true)
+    public static function createRegularLedgerPayment()
     {
-        $payment = self::buildRegularLedgerPayment($amount, $endless);
+        $payment = self::buildRegularLedgerPayment(999999, true);
         self::save($payment);
 
         return $payment;
