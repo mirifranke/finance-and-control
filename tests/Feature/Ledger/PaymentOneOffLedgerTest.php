@@ -25,7 +25,7 @@ class PaymentOneOffLedgerTest extends TestCase
     }
 
     /** @test */
-    public function an_authorized_user_cannot_visit_ledger_one_off_payments()
+    public function an_unauthorized_user_cannot_visit_ledger_one_off_payments()
     {
         $response = $this->get('/ledger/payments/one-off');
 
@@ -38,38 +38,48 @@ class PaymentOneOffLedgerTest extends TestCase
         $user = User::factory()->create();
         $category = Category::factory()->create();
 
-        $title = 'title';
-        $description = 'description';
-        $amount = 10;
-        $starts_at = Carbon::now()->setTime(0, 0);
-
-        $this->actingAs($user)->postJson(
-            route('ledger.payment.create'),
-            [
-                'type' => Payment::PAYMENT_TYPE_ONE_OFF,
-                'isDebit' => 0,
-                'title' => $title,
-                'amount' => $amount,
-                'category_id' => $category->id,
-                'description' => $description,
-                'interval' => Payment::INTERVAL_ONCE,
-                'starts_at' => $starts_at->toDateString(),
-            ]
-        );
-
-        $this->assertDatabaseHas('payments', [
+        $expected = new Payment([
             'creator_id' => $user->id,
             'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
             'payment_type' => Payment::PAYMENT_TYPE_ONE_OFF,
             'shop_id' => null,
-            'title' => $title,
-            'amount' => $amount * 100,
+            'title' => 'title',
+            'amount' => 1234,
             'category_id' => $category->id,
-            'description' => $description,
+            'description' => 'description',
             'interval' => Payment::INTERVAL_ONCE,
-            'starts_at' => $starts_at,
+            'starts_at' => Carbon::now()->setTime(0, 0),
             'ends_at' => null,
         ]);
+
+        $this->actingAs($user)->postJson(
+            route('ledger.payment.create'),
+            [
+                'type' => $expected->payment_type,
+                'isDebit' => 0,
+                'shop_id' => $expected->shop_id,
+                'title' => $expected->title,
+                'amount' => $expected->amount / 100,
+                'category_id' => $expected->category_id,
+                'description' => $expected->description,
+                'interval' => $expected->interval,
+                'starts_at' => $expected->starts_at->toDateString(),
+            ]
+        );
+
+        $actual = Payment::first();
+
+        $this->assertEquals($expected->user_id, $actual->user_id);
+        $this->assertEquals($expected->account_type, $actual->account_type);
+        $this->assertEquals($expected->payment_type, $actual->payment_type);
+        $this->assertEquals($expected->shop_id, $actual->shop_id);
+        $this->assertEquals($expected->title, $actual->title);
+        $this->assertEquals($expected->amount, $actual->amount);
+        $this->assertEquals($expected->category_id, $actual->category_id);
+        $this->assertEquals($expected->description, $actual->description);
+        $this->assertEquals($expected->interval, $actual->interval);
+        $this->assertEquals($expected->starts_at, $actual->starts_at);
+        $this->assertEquals($expected->ends_at, $actual->ends_at);
     }
 
     /** @test */
@@ -78,38 +88,48 @@ class PaymentOneOffLedgerTest extends TestCase
         $user = User::factory()->create();
         $category = Category::factory()->create();
 
-        $title = 'title';
-        $description = 'description';
-        $amount = 10;
-        $starts_at = Carbon::now()->setTime(0, 0);
-
-        $this->actingAs($user)->postJson(
-            route('ledger.payment.create'),
-            [
-                'type' => Payment::PAYMENT_TYPE_ONE_OFF,
-                'isDebit' => '1',
-                'title' => $title,
-                'amount' => $amount,
-                'category_id' => $category->id,
-                'description' => $description,
-                'interval' => Payment::INTERVAL_ONCE,
-                'starts_at' => $starts_at->toDateString(),
-            ]
-        );
-
-        $this->assertDatabaseHas('payments', [
+        $expected = new Payment([
             'creator_id' => $user->id,
             'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
             'payment_type' => Payment::PAYMENT_TYPE_ONE_OFF,
             'shop_id' => null,
-            'title' => $title,
-            'amount' => $amount * (-100),
+            'title' => 'title',
+            'amount' => -4321,
             'category_id' => $category->id,
-            'description' => $description,
+            'description' => 'description',
             'interval' => Payment::INTERVAL_ONCE,
-            'starts_at' => $starts_at,
+            'starts_at' => Carbon::now()->setTime(0, 0),
             'ends_at' => null,
         ]);
+
+        $this->actingAs($user)->postJson(
+            route('ledger.payment.create'),
+            [
+                'type' => $expected->payment_type,
+                'isDebit' => 1,
+                'shop_id' => $expected->shop_id,
+                'title' => $expected->title,
+                'amount' => $expected->amount / (-100),
+                'category_id' => $expected->category_id,
+                'description' => $expected->description,
+                'interval' => $expected->interval,
+                'starts_at' => $expected->starts_at->toDateString(),
+            ]
+        );
+
+        $actual = Payment::first();
+
+        $this->assertEquals($expected->user_id, $actual->user_id);
+        $this->assertEquals($expected->account_type, $actual->account_type);
+        $this->assertEquals($expected->payment_type, $actual->payment_type);
+        $this->assertEquals($expected->shop_id, $actual->shop_id);
+        $this->assertEquals($expected->title, $actual->title);
+        $this->assertEquals($expected->amount, $actual->amount);
+        $this->assertEquals($expected->category_id, $actual->category_id);
+        $this->assertEquals($expected->description, $actual->description);
+        $this->assertEquals($expected->interval, $actual->interval);
+        $this->assertEquals($expected->starts_at, $actual->starts_at);
+        $this->assertEquals($expected->ends_at, $actual->ends_at);
     }
 
     /** @test */
@@ -160,5 +180,73 @@ class PaymentOneOffLedgerTest extends TestCase
         $actual = Payment::find($payment->id);
 
         $this->assertNull($actual);
+    }
+
+
+    /** @test */
+    public function an_unauthorized_user_cannot_create_a_ledger_payment()
+    {
+        $category = Category::factory()->create();
+
+        $this->postJson(
+            route('ledger.payment.create'),
+            [
+                'type' => Payment::PAYMENT_TYPE_ONE_OFF,
+                'isDebit' => 0,
+                'shop_id' => null,
+                'title' => 'title',
+                'amount' => 1234,
+                'category_id' => $category->category_id,
+                'description' => 'description',
+                'interval' => Payment::INTERVAL_ONCE,
+                'starts_at' => Carbon::now()->setTime(0, 0),
+            ]
+        );
+
+        $actual = Payment::first();
+        $this->assertNull($actual);
+    }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_update_a_ledger_payment()
+    {
+        $payment = Payment::factory()->create([
+            'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
+        ]);
+
+        $this->patchJson(
+            route('ledger.payment.update', $payment),
+            [
+                'type' => $payment->payment_type,
+                'isDebit' => 0,
+                'shop_id' => null,
+                'title' => 'title',
+                'amount' => 1234,
+                'category_id' => $payment->category_id,
+                'description' => 'description',
+                'interval' => $payment->interval,
+                'starts_at' => $payment->starts_at->toDateString(),
+            ]
+        );
+
+        $actual = Payment::find($payment->id);
+
+        $this->assertEquals($payment->amount, $actual->amount);
+        $this->assertEquals($payment->description, $actual->description);
+    }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_delete_a_ledger_payment()
+    {
+        $payment = Payment::factory()->create([
+            'account_type' => Payment::ACCOUNT_TYPE_LEDGER
+        ]);
+
+        $this->deleteJson(
+            route('ledger.payment.destroy', $payment)
+        );
+
+        $actual = Payment::find($payment->id);
+        $this->assertNotNull($actual);
     }
 }

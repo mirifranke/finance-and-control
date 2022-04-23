@@ -38,40 +38,49 @@ class PaymentRegularLedgerTest extends TestCase
         $user = User::factory()->create();
         $category = Category::factory()->create();
 
-        $title = 'title';
-        $description = 'description';
-        $amount = 10;
-        $starts_at = Carbon::now()->setTime(0, 0);
-        $ends_at = Carbon::now()->addYear()->setTime(0, 0);
-
-        $this->actingAs($user)->postJson(
-            route('ledger.payment.create'),
-            [
-                'type' => Payment::PAYMENT_TYPE_REGULAR,
-                'isDebit' => 0,
-                'title' => $title,
-                'amount' => $amount,
-                'category_id' => $category->id,
-                'description' => $description,
-                'interval' => Payment::INTERVAL_MONTHLY,
-                'starts_at' => $starts_at->toDateString(),
-                'ends_at' => $ends_at->toDateString(),
-            ]
-        );
-
-        $this->assertDatabaseHas('payments', [
+        $expected = new Payment([
             'creator_id' => $user->id,
             'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
             'payment_type' => Payment::PAYMENT_TYPE_REGULAR,
             'shop_id' => null,
-            'title' => $title,
-            'amount' => $amount * 100,
+            'title' => 'title',
+            'amount' => 1234,
             'category_id' => $category->id,
-            'description' => $description,
+            'description' => 'description',
             'interval' => Payment::INTERVAL_MONTHLY,
-            'starts_at' => $starts_at,
-            'ends_at' => $ends_at,
+            'starts_at' => Carbon::now()->setTime(0, 0),
+            'ends_at' => Carbon::now()->addYear()->setTime(0, 0),
         ]);
+
+        $this->actingAs($user)->postJson(
+            route('ledger.payment.create'),
+            [
+                'type' => $expected->payment_type,
+                'isDebit' => 0,
+                'shop_id' => $expected->shop_id,
+                'title' => $expected->title,
+                'amount' => $expected->amount / 100,
+                'category_id' => $expected->category_id,
+                'description' => $expected->description,
+                'interval' => $expected->interval,
+                'starts_at' => $expected->starts_at->toDateString(),
+                'ends_at' => $expected->ends_at->toDateString(),
+            ]
+        );
+
+        $actual = Payment::first();
+
+        $this->assertEquals($expected->user_id, $actual->user_id);
+        $this->assertEquals($expected->account_type, $actual->account_type);
+        $this->assertEquals($expected->payment_type, $actual->payment_type);
+        $this->assertEquals($expected->shop_id, $actual->shop_id);
+        $this->assertEquals($expected->title, $actual->title);
+        $this->assertEquals($expected->amount, $actual->amount);
+        $this->assertEquals($expected->category_id, $actual->category_id);
+        $this->assertEquals($expected->description, $actual->description);
+        $this->assertEquals($expected->interval, $actual->interval);
+        $this->assertEquals($expected->starts_at, $actual->starts_at);
+        $this->assertEquals($expected->ends_at, $actual->ends_at);
     }
 
     /** @test */
@@ -80,38 +89,49 @@ class PaymentRegularLedgerTest extends TestCase
         $user = User::factory()->create();
         $category = Category::factory()->create();
 
-        $title = 'title';
-        $description = 'description';
-        $amount = 10;
-        $starts_at = Carbon::now()->setTime(0, 0);
-
-        $this->actingAs($user)->postJson(
-            route('ledger.payment.create'),
-            [
-                'type' => Payment::PAYMENT_TYPE_REGULAR,
-                'isDebit' => 0,
-                'title' => $title,
-                'amount' => $amount,
-                'category_id' => $category->id,
-                'description' => $description,
-                'interval' => Payment::INTERVAL_MONTHLY,
-                'starts_at' => $starts_at->toDateString(),
-            ]
-        );
-
-        $this->assertDatabaseHas('payments', [
+        $expected = new Payment([
             'creator_id' => $user->id,
             'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
             'payment_type' => Payment::PAYMENT_TYPE_REGULAR,
             'shop_id' => null,
-            'title' => $title,
-            'amount' => $amount * 100,
+            'title' => 'title',
+            'amount' => 1234,
             'category_id' => $category->id,
-            'description' => $description,
+            'description' => 'description',
             'interval' => Payment::INTERVAL_MONTHLY,
-            'starts_at' => $starts_at,
+            'starts_at' => Carbon::now()->setTime(0, 0),
             'ends_at' => null,
         ]);
+
+        $this->actingAs($user)->postJson(
+            route('ledger.payment.create'),
+            [
+                'type' => $expected->payment_type,
+                'isDebit' => 0,
+                'shop_id' => $expected->shop_id,
+                'title' => $expected->title,
+                'amount' => $expected->amount / 100,
+                'category_id' => $expected->category_id,
+                'description' => $expected->description,
+                'interval' => $expected->interval,
+                'starts_at' => $expected->starts_at->toDateString(),
+                'ends_at' => $expected->ends_at,
+            ]
+        );
+
+        $actual = Payment::first();
+
+        $this->assertEquals($expected->user_id, $actual->user_id);
+        $this->assertEquals($expected->account_type, $actual->account_type);
+        $this->assertEquals($expected->payment_type, $actual->payment_type);
+        $this->assertEquals($expected->shop_id, $actual->shop_id);
+        $this->assertEquals($expected->title, $actual->title);
+        $this->assertEquals($expected->amount, $actual->amount);
+        $this->assertEquals($expected->category_id, $actual->category_id);
+        $this->assertEquals($expected->description, $actual->description);
+        $this->assertEquals($expected->interval, $actual->interval);
+        $this->assertEquals($expected->starts_at, $actual->starts_at);
+        $this->assertEquals($expected->ends_at, $actual->ends_at);
     }
 
     /** @test */
@@ -120,40 +140,49 @@ class PaymentRegularLedgerTest extends TestCase
         $user = User::factory()->create();
         $category = Category::factory()->create();
 
-        $title = 'title';
-        $description = 'description';
-        $amount = 10;
-        $starts_at = Carbon::now()->setTime(0, 0);
-        $ends_at = Carbon::now()->addYear()->setTime(0, 0);
-
-        $this->actingAs($user)->postJson(
-            route('ledger.payment.create'),
-            [
-                'type' => Payment::PAYMENT_TYPE_REGULAR,
-                'isDebit' => '1',
-                'title' => $title,
-                'amount' => $amount,
-                'category_id' => $category->id,
-                'description' => $description,
-                'interval' => Payment::INTERVAL_MONTHLY,
-                'starts_at' => $starts_at->toDateString(),
-                'ends_at' => $ends_at->toDateString(),
-            ]
-        );
-
-        $this->assertDatabaseHas('payments', [
+        $expected = new Payment([
             'creator_id' => $user->id,
             'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
             'payment_type' => Payment::PAYMENT_TYPE_REGULAR,
             'shop_id' => null,
-            'title' => $title,
-            'amount' => $amount * (-100),
+            'title' => 'title',
+            'amount' => -4321,
             'category_id' => $category->id,
-            'description' => $description,
+            'description' => 'description',
             'interval' => Payment::INTERVAL_MONTHLY,
-            'starts_at' => $starts_at,
-            'ends_at' => $ends_at,
+            'starts_at' => Carbon::now()->setTime(0, 0),
+            'ends_at' => Carbon::now()->addYear()->setTime(0, 0),
         ]);
+
+        $this->actingAs($user)->postJson(
+            route('ledger.payment.create'),
+            [
+                'type' => $expected->payment_type,
+                'isDebit' => 1,
+                'shop_id' => $expected->shop_id,
+                'title' => $expected->title,
+                'amount' => $expected->amount / (-100),
+                'category_id' => $expected->category_id,
+                'description' => $expected->description,
+                'interval' => $expected->interval,
+                'starts_at' => $expected->starts_at->toDateString(),
+                'ends_at' => $expected->ends_at->toDateString(),
+            ]
+        );
+
+        $actual = Payment::first();
+
+        $this->assertEquals($expected->user_id, $actual->user_id);
+        $this->assertEquals($expected->account_type, $actual->account_type);
+        $this->assertEquals($expected->payment_type, $actual->payment_type);
+        $this->assertEquals($expected->shop_id, $actual->shop_id);
+        $this->assertEquals($expected->title, $actual->title);
+        $this->assertEquals($expected->amount, $actual->amount);
+        $this->assertEquals($expected->category_id, $actual->category_id);
+        $this->assertEquals($expected->description, $actual->description);
+        $this->assertEquals($expected->interval, $actual->interval);
+        $this->assertEquals($expected->starts_at, $actual->starts_at);
+        $this->assertEquals($expected->ends_at, $actual->ends_at);
     }
 
     /** @test */
@@ -162,38 +191,49 @@ class PaymentRegularLedgerTest extends TestCase
         $user = User::factory()->create();
         $category = Category::factory()->create();
 
-        $title = 'title';
-        $description = 'description';
-        $amount = 10;
-        $starts_at = Carbon::now()->setTime(0, 0);
-
-        $this->actingAs($user)->postJson(
-            route('ledger.payment.create'),
-            [
-                'type' => Payment::PAYMENT_TYPE_REGULAR,
-                'isDebit' => 1,
-                'title' => $title,
-                'amount' => $amount,
-                'category_id' => $category->id,
-                'description' => $description,
-                'interval' => Payment::INTERVAL_MONTHLY,
-                'starts_at' => $starts_at->toDateString(),
-            ]
-        );
-
-        $this->assertDatabaseHas('payments', [
+        $expected = new Payment([
             'creator_id' => $user->id,
             'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
             'payment_type' => Payment::PAYMENT_TYPE_REGULAR,
             'shop_id' => null,
-            'title' => $title,
-            'amount' => $amount * (-100),
+            'title' => 'title',
+            'amount' => -4321,
             'category_id' => $category->id,
-            'description' => $description,
+            'description' => 'description',
             'interval' => Payment::INTERVAL_MONTHLY,
-            'starts_at' => $starts_at,
+            'starts_at' => Carbon::now()->setTime(0, 0),
             'ends_at' => null,
         ]);
+
+        $this->actingAs($user)->postJson(
+            route('ledger.payment.create'),
+            [
+                'type' => $expected->payment_type,
+                'isDebit' => 1,
+                'shop_id' => $expected->shop_id,
+                'title' => $expected->title,
+                'amount' => $expected->amount / (-100),
+                'category_id' => $expected->category_id,
+                'description' => $expected->description,
+                'interval' => $expected->interval,
+                'starts_at' => $expected->starts_at->toDateString(),
+                'ends_at' => $expected->ends_at,
+            ]
+        );
+
+        $actual = Payment::first();
+
+        $this->assertEquals($expected->user_id, $actual->user_id);
+        $this->assertEquals($expected->account_type, $actual->account_type);
+        $this->assertEquals($expected->payment_type, $actual->payment_type);
+        $this->assertEquals($expected->shop_id, $actual->shop_id);
+        $this->assertEquals($expected->title, $actual->title);
+        $this->assertEquals($expected->amount, $actual->amount);
+        $this->assertEquals($expected->category_id, $actual->category_id);
+        $this->assertEquals($expected->description, $actual->description);
+        $this->assertEquals($expected->interval, $actual->interval);
+        $this->assertEquals($expected->starts_at, $actual->starts_at);
+        $this->assertEquals($expected->ends_at, $actual->ends_at);
     }
 
     /** @test */
