@@ -33,32 +33,216 @@ class PaymentRegularLedgerTest extends TestCase
     }
 
     /** @test */
-    public function it_creates_an_outgoing_regular_payment_with_start_and_end_date()
+    public function it_creates_an_incoming_regular_ledger_payment_with_start_and_end_date()
     {
         $user = User::factory()->create();
         $category = Category::factory()->create();
 
-        $response = $this->actingAs($user)->postJson(
+        $title = 'title';
+        $description = 'description';
+        $amount = 10;
+        $starts_at = Carbon::now()->setTime(0, 0);
+        $ends_at = Carbon::now()->addYear()->setTime(0, 0);
+
+        $this->actingAs($user)->postJson(
+            route('ledger.payment.create'),
+            [
+                'type' => Payment::PAYMENT_TYPE_REGULAR,
+                'isDebit' => 0,
+                'title' => $title,
+                'amount' => $amount,
+                'category_id' => $category->id,
+                'description' => $description,
+                'interval' => Payment::INTERVAL_MONTHLY,
+                'starts_at' => $starts_at->toDateString(),
+                'ends_at' => $ends_at->toDateString(),
+            ]
+        );
+
+        $this->assertDatabaseHas('payments', [
+            'creator_id' => $user->id,
+            'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
+            'payment_type' => Payment::PAYMENT_TYPE_REGULAR,
+            'shop_id' => null,
+            'title' => $title,
+            'amount' => $amount * 100,
+            'category_id' => $category->id,
+            'description' => $description,
+            'interval' => Payment::INTERVAL_MONTHLY,
+            'starts_at' => $starts_at,
+            'ends_at' => $ends_at,
+        ]);
+    }
+
+    /** @test */
+    public function it_creates_an_incoming_regular_ledger_payment_with_start_date()
+    {
+        $user = User::factory()->create();
+        $category = Category::factory()->create();
+
+        $title = 'title';
+        $description = 'description';
+        $amount = 10;
+        $starts_at = Carbon::now()->setTime(0, 0);
+
+        $this->actingAs($user)->postJson(
+            route('ledger.payment.create'),
+            [
+                'type' => Payment::PAYMENT_TYPE_REGULAR,
+                'isDebit' => 0,
+                'title' => $title,
+                'amount' => $amount,
+                'category_id' => $category->id,
+                'description' => $description,
+                'interval' => Payment::INTERVAL_MONTHLY,
+                'starts_at' => $starts_at->toDateString(),
+            ]
+        );
+
+        $this->assertDatabaseHas('payments', [
+            'creator_id' => $user->id,
+            'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
+            'payment_type' => Payment::PAYMENT_TYPE_REGULAR,
+            'shop_id' => null,
+            'title' => $title,
+            'amount' => $amount * 100,
+            'category_id' => $category->id,
+            'description' => $description,
+            'interval' => Payment::INTERVAL_MONTHLY,
+            'starts_at' => $starts_at,
+            'ends_at' => null,
+        ]);
+    }
+
+    /** @test */
+    public function it_creates_an_outgoing_regular_ledger_payment_with_start_and_end_date()
+    {
+        $user = User::factory()->create();
+        $category = Category::factory()->create();
+
+        $title = 'title';
+        $description = 'description';
+        $amount = 10;
+        $starts_at = Carbon::now()->setTime(0, 0);
+        $ends_at = Carbon::now()->addYear()->setTime(0, 0);
+
+        $this->actingAs($user)->postJson(
             route('ledger.payment.create'),
             [
                 'type' => Payment::PAYMENT_TYPE_REGULAR,
                 'isDebit' => '1',
-                'title' => 'title',
-                'amount' => '1000',
+                'title' => $title,
+                'amount' => $amount,
                 'category_id' => $category->id,
-                'description' => 'description',
+                'description' => $description,
                 'interval' => Payment::INTERVAL_MONTHLY,
-                'starts_at' => Carbon::now()->toDateString(),
-                'ends_at' => Carbon::now()->addYear()->toDateString(),
+                'starts_at' => $starts_at->toDateString(),
+                'ends_at' => $ends_at->toDateString(),
             ]
         );
 
-        $response->dumpHeaders();
+        $this->assertDatabaseHas('payments', [
+            'creator_id' => $user->id,
+            'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
+            'payment_type' => Payment::PAYMENT_TYPE_REGULAR,
+            'shop_id' => null,
+            'title' => $title,
+            'amount' => $amount * (-100),
+            'category_id' => $category->id,
+            'description' => $description,
+            'interval' => Payment::INTERVAL_MONTHLY,
+            'starts_at' => $starts_at,
+            'ends_at' => $ends_at,
+        ]);
+    }
 
-        $response->dumpSession();
+    /** @test */
+    public function it_creates_an_outgoing_regular_ledger_payment_with_start_date()
+    {
+        $user = User::factory()->create();
+        $category = Category::factory()->create();
 
-        $response->dump();
+        $title = 'title';
+        $description = 'description';
+        $amount = 10;
+        $starts_at = Carbon::now()->setTime(0, 0);
 
-        $this->assertDatabaseCount('payments', 1);
+        $this->actingAs($user)->postJson(
+            route('ledger.payment.create'),
+            [
+                'type' => Payment::PAYMENT_TYPE_REGULAR,
+                'isDebit' => 1,
+                'title' => $title,
+                'amount' => $amount,
+                'category_id' => $category->id,
+                'description' => $description,
+                'interval' => Payment::INTERVAL_MONTHLY,
+                'starts_at' => $starts_at->toDateString(),
+            ]
+        );
+
+        $this->assertDatabaseHas('payments', [
+            'creator_id' => $user->id,
+            'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
+            'payment_type' => Payment::PAYMENT_TYPE_REGULAR,
+            'shop_id' => null,
+            'title' => $title,
+            'amount' => $amount * (-100),
+            'category_id' => $category->id,
+            'description' => $description,
+            'interval' => Payment::INTERVAL_MONTHLY,
+            'starts_at' => $starts_at,
+            'ends_at' => null,
+        ]);
+    }
+
+    /** @test */
+    public function it_updates_a_regular_ledger_payment()
+    {
+        $user = User::factory()->create();
+        $payment = Payment::factory()->create([
+            'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
+            'payment_type' => Payment::PAYMENT_TYPE_REGULAR,
+            'title' => 'title',
+            'amount' => -2000,
+        ]);
+
+        $this->actingAs($user)->patchJson(
+            route('ledger.payment.update', $payment),
+            [
+                'type' => $payment->payment_type,
+                'isDebit' => $payment->isDebit(),
+                'title' => 'updated title',
+                'amount' => 15,
+                'category_id' => $payment->category->id,
+                'description' => $payment->description,
+                'interval' => $payment->interval,
+                'starts_at' => $payment->starts_at,
+            ]
+        );
+
+        $actual = Payment::find($payment->id);
+
+        $this->assertNotNull($actual);
+        $this->assertEquals('updated title', $actual->title);
+        $this->assertEquals(-1500, $actual->amount);
+    }
+
+    /** @test */
+    public function it_deletes_a_regular_ledger_payment()
+    {
+        $user = User::factory()->create();
+        $payment = Payment::factory()->create([
+            'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
+            'payment_type' => Payment::PAYMENT_TYPE_REGULAR,
+        ]);
+
+        $this->actingAs($user)->deleteJson(
+            route('ledger.payment.destroy', $payment)
+        );
+
+        $actual = Payment::find($payment->id);
+
+        $this->assertNull($actual);
     }
 }
