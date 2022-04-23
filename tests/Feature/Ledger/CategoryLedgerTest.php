@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Http\Requests\StoreCategoryRequest;
 use App\Models\Category;
 use App\Models\Payment;
 use App\Models\User;

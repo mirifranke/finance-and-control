@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Payment;
 use App\Models\Shop;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -16,15 +15,9 @@ return new class extends Migration
     public function up()
     {
         Schema::table('payments', function (Blueprint $table) {
-            $table->after('creator_id', function ($table) {
-                $table->string('account_type')->default(Payment::ACCOUNT_TYPE_LEDGER);
-            });
-            $table->after('type', function ($table) {
+            $table->after('payment_type', function ($table) {
                 $table->foreignIdFor(Shop::class)->nullable()->constrained();
             });
-
-            $table->renameColumn('type', 'payment_type');
-            $table->string('title')->nullable()->change();
         });
     }
 
@@ -37,9 +30,6 @@ return new class extends Migration
     {
         Schema::table('payments', function (Blueprint $table) {
             $table->dropForeign('payments_shop_id_foreign');
-
-            $table->renameColumn('payment_type', 'type');
-            $table->dropColumn('account_type');
             $table->dropColumn('shop_id');
         });
     }
