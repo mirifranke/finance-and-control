@@ -130,7 +130,7 @@ class Helpers
         Payment $expected,
         array $changes
     ) {
-        $original = self::getInput($expected, 0);
+        $original = self::getInput($expected);
 
         return array_merge($original, $changes);
     }

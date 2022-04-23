@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Models\Payment;
+use App\Models\Shop;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -22,5 +23,14 @@ abstract class TestCase extends BaseTestCase
         $this->assertEquals($expected->interval, $actual->interval);
         $this->assertEquals($expected->starts_at, $actual->starts_at);
         $this->assertEquals($expected->ends_at, $actual->ends_at);
+    }
+
+    protected function assertShopsEqual(Shop $expected, Shop $actual)
+    {
+        $this->assertEquals($expected->user_id, $actual->user_id);
+        $this->assertEquals($expected->account_type, $actual->account_type);
+        $this->assertEquals($expected->title, $actual->title);
+        $this->assertEquals($expected->slug, $actual->slug);
+        $this->assertEquals($expected->description, $actual->description);
     }
 }
