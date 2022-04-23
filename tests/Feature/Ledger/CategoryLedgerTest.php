@@ -69,6 +69,12 @@ class CategoryLedgerTest extends TestCase
             'title' => 'updated title',
             'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
         ]);
+
+        $actual = Category::find($category->id);
+
+        $this->assertNotNull($actual);
+        $this->assertEquals('updated title', $actual->title);
+        $this->assertEquals(Payment::ACCOUNT_TYPE_LEDGER, $actual->account_type);
     }
 
     /** @test */
@@ -83,9 +89,9 @@ class CategoryLedgerTest extends TestCase
             route('ledger.category.destroy', $category)
         );
 
-        $this->assertDatabaseMissing('categories', [
-            'id' => $category->id,
-        ]);
+        $actual = Category::find($category->id);
+
+        $this->assertNull($actual);
     }
 
 

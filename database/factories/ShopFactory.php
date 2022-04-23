@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Shop>
@@ -16,8 +18,12 @@ class ShopFactory extends Factory
      */
     public function definition()
     {
+        $title = $this->faker->word();
+
         return [
-            'name' => $this->faker->word(),
+            'creator_id' => User::factory(),
+            'title' => $title,
+            'slug' => Str::slug($title),
             'description' => $this->faker->sentence(),
         ];
     }
