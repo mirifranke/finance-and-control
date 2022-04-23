@@ -17,7 +17,7 @@ class UpdateLedgerCategoryController extends Controller
         $category->save();
 
         return redirect()
-            ->route('budget.categories')
+            ->route('ledger.categories')
             ->with('success', 'Category was updated successfully.');
     }
 }

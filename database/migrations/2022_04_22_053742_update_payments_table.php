@@ -36,6 +36,8 @@ return new class extends Migration
     public function down()
     {
         Schema::table('payments', function (Blueprint $table) {
+            $table->dropForeign('payments_shop_id_foreign');
+
             $table->renameColumn('payment_type', 'type');
             $table->dropColumn('account_type');
             $table->dropColumn('shop_id');
