@@ -65,10 +65,11 @@ class CategoryBudgetTest extends TestCase
             ]
         );
 
-        $this->assertDatabaseHas('categories', [
-            'title' => 'updated title',
-            'account_type' => Payment::ACCOUNT_TYPE_BUDGET,
-        ]);
+        $actual = Category::find($category->id);
+
+        $this->assertNotNull($actual);
+        $this->assertEquals('updated title', $actual->title);
+        $this->assertEquals(Payment::ACCOUNT_TYPE_BUDGET, $actual->account_type);
     }
 
     /** @test */
@@ -83,9 +84,8 @@ class CategoryBudgetTest extends TestCase
             route('budget.category.destroy', $category)
         );
 
-        $this->assertDatabaseMissing('categories', [
-            'id' => $category->id,
-        ]);
+        $actual = Category::find($category->id);
+        $this->assertNull($actual);
     }
 
     /** @test */

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Category;
 use App\Models\Payment;
+use App\Models\Shop;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -40,6 +41,7 @@ class PaymentFactory extends Factory
             'creator_id' => User::factory(),
             'account_type' => $account_type,
             'payment_type' => $payment_type,
+            'shop_id' => Shop::factory(),
             'title' => $this->faker->word(),
             'amount' => $this->faker->numberBetween($min = 100, $max = 10000),
             'category_id' => Category::factory(),
