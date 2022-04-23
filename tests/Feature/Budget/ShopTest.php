@@ -78,7 +78,7 @@ class ShopTest extends TestCase
             route('budget.shop.destroy', $shop)
         );
 
-        $actual = Payment::find($shop->id);
+        $actual = Shop::find($shop->id);
         $this->assertNull($actual);
     }
 
@@ -106,7 +106,7 @@ class ShopTest extends TestCase
         ]);
 
         $this->patchJson(
-            route('budget.shop.create', $shop),
+            route('budget.shop.update', $shop),
             $input
         );
 
