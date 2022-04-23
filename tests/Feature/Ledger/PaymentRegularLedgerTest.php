@@ -2,13 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Models\Category;
 use App\Models\Payment;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Test\Helpers\Helpers;
+use Tests\Helpers\Helpers;
 use Tests\TestCase;
 
 class PaymentRegularLedgerTest extends TestCase
@@ -37,23 +34,12 @@ class PaymentRegularLedgerTest extends TestCase
     public function it_creates_an_incoming_regular_ledger_payment_with_start_and_end_date()
     {
         $user = User::factory()->create();
-
         $expected = Helpers::buildRegularLedgerPayment(1234, false);
+        $input = Helpers::getInput($expected);
 
         $this->actingAs($user)->postJson(
             route('ledger.payment.create'),
-            [
-                'type' => $expected->payment_type,
-                'isDebit' => 0,
-                'shop_id' => $expected->shop_id,
-                'title' => $expected->title,
-                'amount' => $expected->amount / 100,
-                'category_id' => $expected->category_id,
-                'description' => $expected->description,
-                'interval' => $expected->interval,
-                'starts_at' => $expected->starts_at->toDateString(),
-                'ends_at' => $expected->ends_at->toDateString(),
-            ]
+            $input
         );
 
         $actual = Payment::first();
@@ -64,23 +50,12 @@ class PaymentRegularLedgerTest extends TestCase
     public function it_creates_an_incoming_regular_ledger_payment_with_start_date()
     {
         $user = User::factory()->create();
-
         $expected = Helpers::buildRegularLedgerPayment(1234);
+        $input = Helpers::getInput($expected);
 
         $this->actingAs($user)->postJson(
             route('ledger.payment.create'),
-            [
-                'type' => $expected->payment_type,
-                'isDebit' => 0,
-                'shop_id' => $expected->shop_id,
-                'title' => $expected->title,
-                'amount' => $expected->amount / 100,
-                'category_id' => $expected->category_id,
-                'description' => $expected->description,
-                'interval' => $expected->interval,
-                'starts_at' => $expected->starts_at->toDateString(),
-                'ends_at' => $expected->ends_at,
-            ]
+            $input
         );
 
         $actual = Payment::first();
@@ -91,23 +66,12 @@ class PaymentRegularLedgerTest extends TestCase
     public function it_creates_an_outgoing_regular_ledger_payment_with_start_and_end_date()
     {
         $user = User::factory()->create();
-
         $expected = Helpers::buildRegularLedgerPayment(-4321, false);
+        $input = Helpers::getInput($expected);
 
         $this->actingAs($user)->postJson(
             route('ledger.payment.create'),
-            [
-                'type' => $expected->payment_type,
-                'isDebit' => 1,
-                'shop_id' => $expected->shop_id,
-                'title' => $expected->title,
-                'amount' => $expected->amount / (-100),
-                'category_id' => $expected->category_id,
-                'description' => $expected->description,
-                'interval' => $expected->interval,
-                'starts_at' => $expected->starts_at->toDateString(),
-                'ends_at' => $expected->ends_at->toDateString(),
-            ]
+            $input
         );
 
         $actual = Payment::first();
@@ -118,23 +82,12 @@ class PaymentRegularLedgerTest extends TestCase
     public function it_creates_an_outgoing_regular_ledger_payment_with_start_date()
     {
         $user = User::factory()->create();
-
         $expected = Helpers::buildRegularLedgerPayment(-4321);
+        $input = Helpers::getInput($expected);
 
         $this->actingAs($user)->postJson(
             route('ledger.payment.create'),
-            [
-                'type' => $expected->payment_type,
-                'isDebit' => 1,
-                'shop_id' => $expected->shop_id,
-                'title' => $expected->title,
-                'amount' => $expected->amount / (-100),
-                'category_id' => $expected->category_id,
-                'description' => $expected->description,
-                'interval' => $expected->interval,
-                'starts_at' => $expected->starts_at->toDateString(),
-                'ends_at' => $expected->ends_at,
-            ]
+            $input
         );
 
         $actual = Payment::first();
@@ -145,45 +98,82 @@ class PaymentRegularLedgerTest extends TestCase
     public function it_updates_a_regular_ledger_payment()
     {
         $user = User::factory()->create();
-
-        $payment = Helpers::createRegularLedgerPayment(-2000);
+        $payment = Helpers::createRegularLedgerPayment();
+        $input = Helpers::getInputWithChanges($payment, [
+            'isDebit' => true,
+            'amount' => 25,
+            'description' => 'My Updated Description',
+        ]);
 
         $this->actingAs($user)->patchJson(
             route('ledger.payment.update', $payment),
-            [
-                'type' => $payment->payment_type,
-                'isDebit' => $payment->isDebit(),
-                'title' => 'updated title',
-                'amount' => 15,
-                'category_id' => $payment->category->id,
-                'description' => $payment->description,
-                'interval' => $payment->interval,
-                'starts_at' => $payment->starts_at,
-            ]
+            $input
         );
 
         $actual = Payment::find($payment->id);
-
-        $this->assertNotNull($actual);
-        $this->assertEquals('updated title', $actual->title);
-        $this->assertEquals(-1500, $actual->amount);
+        $this->assertEquals(-2500, $actual->amount);
+        $this->assertEquals($input['description'], $actual->description);
     }
 
     /** @test */
     public function it_deletes_a_regular_ledger_payment()
     {
         $user = User::factory()->create();
-        $payment = Payment::factory()->create([
-            'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
-            'payment_type' => Payment::PAYMENT_TYPE_REGULAR,
-        ]);
+        $payment = Helpers::createRegularLedgerPayment();
 
         $this->actingAs($user)->deleteJson(
             route('ledger.payment.destroy', $payment)
         );
 
         $actual = Payment::find($payment->id);
-
         $this->assertNull($actual);
+    }
+
+
+    /** @test */
+    public function an_unauthorized_user_cannot_create_a_regular_ledger_payment()
+    {
+        $payment = Helpers::buildRegularLedgerPayment(1234);
+        $input = Helpers::getInput($payment);
+
+        $this->postJson(
+            route('ledger.payment.create'),
+            $input
+        );
+
+        $actual = Payment::first();
+        $this->assertNull($actual);
+    }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_update_a_regular_ledger_payment()
+    {
+        $payment = Helpers::createRegularLedgerPayment();
+        $input = Helpers::getInputWithChanges($payment, [
+            'description' => 'My Updated Description',
+        ]);
+
+        $this->patchJson(
+            route('ledger.payment.update', $payment),
+            $input
+        );
+
+        $actual = Payment::find($payment->id);
+
+        $this->assertEquals($payment->amount, $actual->amount);
+        $this->assertEquals($payment->description, $actual->description);
+    }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_delete_a_regular_ledger_payment()
+    {
+        $payment = Helpers::createRegularLedgerPayment();
+
+        $this->deleteJson(
+            route('ledger.payment.destroy', $payment)
+        );
+
+        $actual = Payment::find($payment->id);
+        $this->assertNotNull($actual);
     }
 }
