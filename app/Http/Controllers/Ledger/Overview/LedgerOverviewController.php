@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Ledger\Overview;
 
 use App\Http\Controllers\Controller;
-use App\Models\Payment;
+use App\Services\PaymentService;
 use App\Utilities\Helper;
 
 class LedgerOverviewController extends Controller
@@ -16,10 +16,10 @@ class LedgerOverviewController extends Controller
         $nextMonth = Helper::getNextMonth($currentDate);
 
         // amounts in cents
-        $regularCredit = Payment::regularCreditOfMonth($currentDate);
-        $regularDebit = Payment::regularDebitOfMonth($currentDate);
-        $oneOffCredit = Payment::oneOffCreditOfMonth($currentDate);
-        $oneOffDebit = Payment::oneOffDebitOfMonth($currentDate);
+        $regularCredit = PaymentService::regularCreditOfMonth($currentDate);
+        $regularDebit = PaymentService::regularDebitOfMonth($currentDate);
+        $oneOffCredit = PaymentService::oneOffCreditOfMonth($currentDate);
+        $oneOffDebit = PaymentService::oneOffDebitOfMonth($currentDate);
         $totalRegular = $regularCredit + $regularDebit;
         $totalOneOff = $oneOffCredit + $oneOffDebit;
 

@@ -134,4 +134,22 @@ class Helpers
 
         return array_merge($original, $changes);
     }
+
+    public static function buildPaymentWithChanges(array $changes)
+    {
+        $data = [
+            'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
+            'payment_type' => Payment::PAYMENT_TYPE_REGULAR,
+            'shop_id' => null,
+            'title' => 'title',
+            'amount' => -110000,
+            'category_id' => 1,
+            'description' => 'description',
+            'interval' => Payment::INTERVAL_MONTHLY,
+            'starts_at' => Carbon::now(),
+            'ends_at' => Carbon::now()->addYears(5),
+        ];
+
+        return new Payment(array_merge($data, $changes));
+    }
 }

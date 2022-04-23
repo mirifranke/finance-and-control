@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\PaymentService;
 use App\Utilities\Helper;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,14 +23,12 @@ class Payment extends Model
     const INTERVAL_WEEKLY = 'weekly';
     const INTERVAL_MONTHLY = 'monthly';
     const INTERVAL_QUARTERLY = 'quarterly';
-    const INTERVAL_HALF_YEARLY = 'half-yearly';
     const INTERVAL_YEARLY = 'yearly';
 
     const INTERVALS = [
         Payment::INTERVAL_WEEKLY,
         Payment::INTERVAL_MONTHLY,
         Payment::INTERVAL_QUARTERLY,
-        Payment::INTERVAL_HALF_YEARLY,
         Payment::INTERVAL_YEARLY,
     ];
 
@@ -104,27 +103,6 @@ class Payment extends Model
         return '';
     }
 
-    public function isRegular()
-    {
-        return $this->payment_type === Payment::PAYMENT_TYPE_REGULAR;
-    }
-
-    public function isDebit(): int
-    {
-        if ($this->amount >= 0) {
-            return 0;
-        }
-        return 1;
-    }
-
-    public function isEndless(): int
-    {
-        if ($this->ends_at != null) {
-            return 0;
-        }
-        return 1;
-    }
-
     public function scopeFilter($query, array $filters)
     {
         $query->when(
@@ -146,162 +124,44 @@ class Payment extends Model
         }));
     }
 
-    public function isPayMonth(Carbon $date)
+    public function isRegular()
     {
-        if (!$this->isActive($date)) {
-            return false;
-        }
-
-        if ($this->interval === Payment::INTERVAL_MONTHLY) {
-            return true;
-        }
-
-        if ($this->interval === Payment::INTERVAL_QUARTERLY) {
-            return $this->isQuarterlyPayMonth($date);
-        }
-
-        if ($this->interval === Payment::INTERVAL_HALF_YEARLY) {
-            return $this->isHalfYearlyPayMonth($date);
-        }
-
-        if ($this->interval === Payment::INTERVAL_YEARLY) {
-            return $this->isYearlyPayMonth($date);
-        }
+        return $this->payment_type === Payment::PAYMENT_TYPE_REGULAR;
     }
 
-    private function isActive(Carbon $date)
+    public function isDebit(): int
     {
-        if ($this->starts_at->greaterThan($date)) {
-            return false;
+        if ($this->amount >= 0) {
+            return 0;
         }
+        return 1;
+    }
 
-        if ($this->ends_at && $this->ends_at->lessThan($date)) {
-            return false;
+    public function isEndless(): int
+    {
+        if ($this->ends_at != null) {
+            return 0;
         }
-
-        return true;
+        return 1;
     }
 
-    // TODO: calculate weekly payment
-
-    // public function getCurrentAmount($date)
-    // {
-    //     if (!$this->isActive($date)) {
-    //         return 0;
-    //     }
-
-    //     if ($this->interval === Payment::INTERVAL_ONCE) {
-    //         if ($this->starts_at) {
-    //             # code...
-    //         }
-    //     }
-    // }
-
-    private function isQuarterlyPayMonth(Carbon $date)
+    public function isYearly()
     {
-        $quarter1 = Carbon::create($this->starts_at);
-        $quarter2 = $quarter1->copy()->addMonths(3);
-        $quarter3 = $quarter2->copy()->addMonths(3);
-        $quarter4 = $quarter3->copy()->addMonths(3);
-
-        if (
-            $date->month === $quarter1->month ||
-            $date->month === $quarter2->month ||
-            $date->month === $quarter3->month ||
-            $date->month === $quarter4->month
-        ) {
-            return true;
-        }
-
-        return false;
+        return $this->interval === self::INTERVAL_YEARLY;
     }
 
-    private function isHalfYearlyPayMonth(Carbon $date)
+    public function isQuarterly()
     {
-        $term1 = Carbon::create($this->starts_at);
-        $term2 = $term1->copy()->addMonths(6);
-
-        if (
-            $date->month === $term1->month ||
-            $date->month === $term2->month
-        ) {
-            return true;
-        }
-
-        return false;
+        return $this->interval === self::INTERVAL_QUARTERLY;
     }
 
-    private function isYearlyPayMonth(Carbon $date)
+    public function isMonthly()
     {
-        $startDate = Carbon::createFromFormat('Y-m-d H:i:s', $this->starts_at)->firstOfMonth();
-
-        if ($startDate->month === $date->month) {
-            return true;
-        }
-
-        return false;
+        return $this->interval === self::INTERVAL_MONTHLY;
     }
 
-    public static function regularCreditOfMonth($date): int
+    public function isWeekly()
     {
-        Payment::weeklyCreditOfMonth($date);
-
-        return Payment::ofMonth($date, Payment::PAYMENT_TYPE_REGULAR, false);
-    }
-
-    public static function regularDebitOfMonth($date)
-    {
-        return Payment::ofMonth($date, Payment::PAYMENT_TYPE_REGULAR, true);
-    }
-
-    public static function oneOffCreditOfMonth($date)
-    {
-        return Payment::ofMonth($date, Payment::PAYMENT_TYPE_ONE_OFF, false);
-    }
-
-    public static function oneOffDebitOfMonth($date)
-    {
-        return Payment::ofMonth($date, Payment::PAYMENT_TYPE_ONE_OFF, true);
-    }
-
-    public static function weeklyCreditOfMonth($date): int
-    {
-        logger('Payment#weeklyCreditOfMonth: $date = ' . $date);
-
-        $collection = Payment::where('interval', 'weekly')
-            ->where('amount', '<', 0)
-            ->get();
-
-        $collection = $collection->filter(function ($payment) use ($date) {
-            return $payment->isActive($date);
-        });
-
-        $fridays = Helper::getFridaysOfMonth($date);
-        foreach ($fridays as $friday) {
-            logger($friday);
-        }
-
-        return 0;
-    }
-
-    private static function ofMonth(
-        $date,
-        $type,
-        $isDebit
-    ) {
-        $collection = Payment::where('payment_type', $type)
-            ->when(!$isDebit, function ($query) {
-                $query->where('amount', '>=', 0);
-            })
-            ->when($isDebit, function ($query) {
-                $query->where('amount', '<', 0);
-            })
-            ->get();
-
-        $amount = $collection->filter(function ($payment) use ($date) {
-            return $payment->isPayMonth($date);
-        })->sum('amount');
-
-        return $amount;
+        return $this->interval === self::INTERVAL_WEEKLY;
     }
 }
