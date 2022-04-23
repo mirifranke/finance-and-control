@@ -1,0 +1,119 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\Payment;
+use App\Utilities\Helper;
+use Carbon\Carbon;
+
+class PaymentService
+{
+    public static function regularCreditOfMonth($date): int
+    {
+        return self::getPaymentsAmount($date, Payment::PAYMENT_TYPE_REGULAR, false);
+    }
+
+    public static function regularDebitOfMonth($date)
+    {
+        return self::getPaymentsAmount($date, Payment::PAYMENT_TYPE_REGULAR, true);
+    }
+
+    public static function oneOffCreditOfMonth($date)
+    {
+        return self::getPaymentsAmount($date, Payment::PAYMENT_TYPE_ONE_OFF, false);
+    }
+
+    public static function oneOffDebitOfMonth($date)
+    {
+        return self::getPaymentsAmount($date, Payment::PAYMENT_TYPE_ONE_OFF, true);
+    }
+
+    private static function getPaymentsAmount(
+        $date,
+        $type,
+        $isDebit
+    ) {
+        $collection = Payment::where('payment_type', $type)
+            ->when(!$isDebit, function ($query) {
+                $query->where('amount', '>=', 0);
+            })
+            ->when($isDebit, function ($query) {
+                $query->where('amount', '<', 0);
+            })
+            ->get();
+
+        $amount = $collection->map(function ($payment) use ($date) {
+            return PaymentService::getAmount($date, $payment);
+        })->sum();
+
+        return $amount;
+    }
+
+    public static function getAmount(Carbon $date, Payment $payment)
+    {
+        if ($payment->starts_at->greaterThan($date)) {
+            return 0;
+        }
+
+        if ($payment->ends_at && $payment->ends_at->lessThan($date)) {
+            return 0;
+        }
+
+        if ($payment->isYearly()) {
+            return self::getYearlyAmount($date, $payment);
+        }
+
+        if ($payment->isQuarterly()) {
+            return self::getQuarterlyAmount($date, $payment);
+        }
+
+        if ($payment->isMonthly()) {
+            return $payment->amount;
+        }
+
+        if ($payment->isWeekly()) {
+            return self::getWeeklyAmount($date, $payment);
+        }
+
+        return 0;
+    }
+
+    private static function getYearlyAmount(Carbon $date, Payment $payment): int
+    {
+        if ($date->month === $payment->starts_at->month) {
+            return $payment->amount;
+        }
+
+        return 0;
+    }
+
+    private static function getQuarterlyAmount(Carbon $date, Payment $payment): int
+    {
+        $quarter1 = Carbon::create($payment->starts_at);
+        $quarter2 = $quarter1->copy()->addMonths(3);
+        $quarter3 = $quarter2->copy()->addMonths(3);
+        $quarter4 = $quarter3->copy()->addMonths(3);
+
+        if (
+            $date->month === $quarter1->month ||
+            $date->month === $quarter2->month ||
+            $date->month === $quarter3->month ||
+            $date->month === $quarter4->month
+        ) {
+            return $payment->amount;
+        }
+
+        return 0;
+    }
+
+    public static function getWeeklyAmount(Carbon $date, Payment $payment)
+    {
+        $datePeriod = Helper::getFridaysOfMonth($date);
+        $dateArray = iterator_to_array($datePeriod);
+        $numberOfFridays = count($dateArray);
+
+        $amountPerMonth = $payment->amount * $numberOfFridays;
+
+        return $amountPerMonth;
+    }
+}
