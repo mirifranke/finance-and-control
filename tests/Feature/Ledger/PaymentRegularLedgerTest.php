@@ -37,21 +37,8 @@ class PaymentRegularLedgerTest extends TestCase
     public function it_creates_an_incoming_regular_ledger_payment_with_start_and_end_date()
     {
         $user = User::factory()->create();
-        $category = Category::factory()->create();
 
-        $expected = new Payment([
-            'creator_id' => $user->id,
-            'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
-            'payment_type' => Payment::PAYMENT_TYPE_REGULAR,
-            'shop_id' => null,
-            'title' => 'title',
-            'amount' => 1234,
-            'category_id' => $category->id,
-            'description' => 'description',
-            'interval' => Payment::INTERVAL_MONTHLY,
-            'starts_at' => Carbon::now()->setTime(0, 0),
-            'ends_at' => Carbon::now()->addYear()->setTime(0, 0),
-        ]);
+        $expected = Helpers::buildRegularLedgerPayment(1234, false);
 
         $this->actingAs($user)->postJson(
             route('ledger.payment.create'),
@@ -77,21 +64,8 @@ class PaymentRegularLedgerTest extends TestCase
     public function it_creates_an_incoming_regular_ledger_payment_with_start_date()
     {
         $user = User::factory()->create();
-        $category = Category::factory()->create();
 
-        $expected = new Payment([
-            'creator_id' => $user->id,
-            'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
-            'payment_type' => Payment::PAYMENT_TYPE_REGULAR,
-            'shop_id' => null,
-            'title' => 'title',
-            'amount' => 1234,
-            'category_id' => $category->id,
-            'description' => 'description',
-            'interval' => Payment::INTERVAL_MONTHLY,
-            'starts_at' => Carbon::now()->setTime(0, 0),
-            'ends_at' => null,
-        ]);
+        $expected = Helpers::buildRegularLedgerPayment(1234);
 
         $this->actingAs($user)->postJson(
             route('ledger.payment.create'),
@@ -117,21 +91,8 @@ class PaymentRegularLedgerTest extends TestCase
     public function it_creates_an_outgoing_regular_ledger_payment_with_start_and_end_date()
     {
         $user = User::factory()->create();
-        $category = Category::factory()->create();
 
-        $expected = new Payment([
-            'creator_id' => $user->id,
-            'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
-            'payment_type' => Payment::PAYMENT_TYPE_REGULAR,
-            'shop_id' => null,
-            'title' => 'title',
-            'amount' => -4321,
-            'category_id' => $category->id,
-            'description' => 'description',
-            'interval' => Payment::INTERVAL_MONTHLY,
-            'starts_at' => Carbon::now()->setTime(0, 0),
-            'ends_at' => Carbon::now()->addYear()->setTime(0, 0),
-        ]);
+        $expected = Helpers::buildRegularLedgerPayment(-4321, false);
 
         $this->actingAs($user)->postJson(
             route('ledger.payment.create'),
@@ -157,21 +118,8 @@ class PaymentRegularLedgerTest extends TestCase
     public function it_creates_an_outgoing_regular_ledger_payment_with_start_date()
     {
         $user = User::factory()->create();
-        $category = Category::factory()->create();
 
-        $expected = new Payment([
-            'creator_id' => $user->id,
-            'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
-            'payment_type' => Payment::PAYMENT_TYPE_REGULAR,
-            'shop_id' => null,
-            'title' => 'title',
-            'amount' => -4321,
-            'category_id' => $category->id,
-            'description' => 'description',
-            'interval' => Payment::INTERVAL_MONTHLY,
-            'starts_at' => Carbon::now()->setTime(0, 0),
-            'ends_at' => null,
-        ]);
+        $expected = Helpers::buildRegularLedgerPayment(-4321);
 
         $this->actingAs($user)->postJson(
             route('ledger.payment.create'),
@@ -197,12 +145,8 @@ class PaymentRegularLedgerTest extends TestCase
     public function it_updates_a_regular_ledger_payment()
     {
         $user = User::factory()->create();
-        $payment = Payment::factory()->create([
-            'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
-            'payment_type' => Payment::PAYMENT_TYPE_REGULAR,
-            'title' => 'title',
-            'amount' => -2000,
-        ]);
+
+        $payment = Helpers::createRegularLedgerPayment(-2000);
 
         $this->actingAs($user)->patchJson(
             route('ledger.payment.update', $payment),

@@ -8,6 +8,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Test\Helpers\Helpers;
 use Tests\TestCase;
 
 class PaymentOneOffLedgerTest extends TestCase
@@ -36,21 +37,8 @@ class PaymentOneOffLedgerTest extends TestCase
     public function it_creates_an_incoming_one_off_ledger_payment()
     {
         $user = User::factory()->create();
-        $category = Category::factory()->create();
 
-        $expected = new Payment([
-            'creator_id' => $user->id,
-            'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
-            'payment_type' => Payment::PAYMENT_TYPE_ONE_OFF,
-            'shop_id' => null,
-            'title' => 'title',
-            'amount' => 1234,
-            'category_id' => $category->id,
-            'description' => 'description',
-            'interval' => Payment::INTERVAL_ONCE,
-            'starts_at' => Carbon::now()->setTime(0, 0),
-            'ends_at' => null,
-        ]);
+        $expected = Helpers::buildOneOffLedgerPayment(1234);
 
         $this->actingAs($user)->postJson(
             route('ledger.payment.create'),
@@ -75,21 +63,8 @@ class PaymentOneOffLedgerTest extends TestCase
     public function it_creates_an_outgoing_one_off_ledger_payment()
     {
         $user = User::factory()->create();
-        $category = Category::factory()->create();
 
-        $expected = new Payment([
-            'creator_id' => $user->id,
-            'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
-            'payment_type' => Payment::PAYMENT_TYPE_ONE_OFF,
-            'shop_id' => null,
-            'title' => 'title',
-            'amount' => -4321,
-            'category_id' => $category->id,
-            'description' => 'description',
-            'interval' => Payment::INTERVAL_ONCE,
-            'starts_at' => Carbon::now()->setTime(0, 0),
-            'ends_at' => null,
-        ]);
+        $expected = Helpers::buildOneOffLedgerPayment(-4321);
 
         $this->actingAs($user)->postJson(
             route('ledger.payment.create'),
@@ -114,12 +89,8 @@ class PaymentOneOffLedgerTest extends TestCase
     public function it_updates_an_one_off_ledger_payment()
     {
         $user = User::factory()->create();
-        $payment = Payment::factory()->create([
-            'account_type' => Payment::ACCOUNT_TYPE_LEDGER,
-            'payment_type' => Payment::PAYMENT_TYPE_ONE_OFF,
-            'title' => 'title',
-            'amount' => -2000,
-        ]);
+
+        $payment = Helpers::createOneOffLedgerPayment(-4321);
 
         $this->actingAs($user)->patchJson(
             route('ledger.payment.update', $payment),
