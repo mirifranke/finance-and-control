@@ -1,4 +1,4 @@
-<x-main-budget heading="Shop {{ $shop->title }}">
+<x-main-budget heading="{{ __('Geschäft') }}: {{ $shop->title }}">
 
     <form method="POST" action="{{ route('budget.shop.update', $shop) }}">
         @csrf
@@ -8,7 +8,7 @@
             <div class="flex flex-col md:grow md:grid md:grid-cols-3 gap-4">
                 {{-- Title --}}
                 <div>
-                    <x-label for="title" class="">Title</x-label>
+                    <x-label for="title" class="">{{ __('Titel') }}</x-label>
                     <x-input id="title" name="title" type="text" class="w-full" value="{{ $shop->title }}" />
 
                     @error('title')
@@ -18,7 +18,7 @@
 
                 {{-- Description --}}
                 <div class="col-span-3">
-                    <x-label for="description" class="">Description</x-label>
+                    <x-label for="description" class="">{{ __('Beschreibung') }}</x-label>
                     <x-input id="description" name="description" type="text" class="w-full" value="{{ $shop->description }}" />
 
                     @error('description')

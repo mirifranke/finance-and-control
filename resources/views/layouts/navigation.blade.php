@@ -13,11 +13,11 @@
             </x-nav-link>
             <x-nav-link :href="route('ledger.overview')"
                 :active="request()->routeIs('ledger.*')">
-                {{ __('Ledger Account') }}
+                {{ __('Hauptkonto') }}
             </x-nav-link>
             <x-nav-link :href="route('budget.overview')"
                 :active="request()->routeIs('budget.*')">
-                {{ __('Budget Account') }}
+                {{ __('Haushaltskonto') }}
             </x-nav-link>
         </div>
 

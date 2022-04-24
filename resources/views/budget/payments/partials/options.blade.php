@@ -1,19 +1,19 @@
 <div class="flex">
     <div class="pr-4">
         <x-filter-link href="/finances/payments/one-off">
-            All
+            {{ __('Alle') }}
         </x-filter-link>
     </div>
 
     <div class="pr-4">
         <x-filter-link href="#">
-            Incoming
+            {{ __('Einnahmen') }}
         </x-filter-link>
     </div>
 
     <div class="pr-4">
         <x-filter-link href="#">
-            Outgoing
+            {{ __('Ausgaben') }}
         </x-filter-link>
     </div>
 

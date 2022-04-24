@@ -1,11 +1,11 @@
 <table class="w-full">
     <tr class="border-b">
-        <x-column header class="w-33/100 md:w-1/5">Titel</x-column>
-        <x-column header class="w-33/100 md:w-15/100">Betrag</x-column>
-        <x-column header class="hidden md:table-cell w-1/5">Kategorie</x-column>
-        <x-column header class="w-33/100 md:w-15/100">Intervall</x-column>
-        <x-column header class="hidden md:table-cell w-14/100">Stardatum</x-column>
-        <x-column header class="hidden md:table-cell w-14/100">Enddatum</x-column>
+        <x-column header class="w-33/100 md:w-1/5">{{ __('Titel') }}</x-column>
+        <x-column header class="w-33/100 md:w-15/100">{{ __('Betrag') }}</x-column>
+        <x-column header class="hidden md:table-cell w-1/5">{{ __('Kategorie') }}</x-column>
+        <x-column header class="w-33/100 md:w-15/100">{{ __('Intervall') }}</x-column>
+        <x-column header class="hidden md:table-cell w-14/100">{{ __('Startdatum') }}</x-column>
+        <x-column header class="hidden md:table-cell w-14/100">{{ __('Enddatum') }}</x-column>
         <x-column header class="w-1/100 md:w-2/100"></x-column>
     </tr>
     @foreach ($payments as $payment)

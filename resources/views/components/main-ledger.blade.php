@@ -1,6 +1,6 @@
 @props(['heading'])
 
-<x-app-layout heading="Ledger Account">
+<x-app-layout heading="{{ __('Hauptkonto') }}">
     <x-setting heading="{{ $heading }}">
 
         <x-slot name="options">
@@ -9,15 +9,15 @@
 
         <x-slot name="links">
             <div class="hidden sm:inline-block">
-                <x-setting-link :href="route('ledger.overview')" name="Overview" :active="request()->routeIs('ledger.overview')" />
+                <x-setting-link :href="route('ledger.overview')" name="{{ __('Übersicht') }}" :active="request()->routeIs('ledger.overview')" />
 
-                <x-setting-link :href="route('ledger.payments.regular')" name="Regular Payments"
+                <x-setting-link :href="route('ledger.payments.regular')" name="{{ __('Regelmäßige Zahlungen') }}"
                     :active="request()->routeIs('ledger.payments.regular')" />
 
-                <x-setting-link :href="route('ledger.payments.one-off')" name="One-Off Payments"
+                <x-setting-link :href="route('ledger.payments.one-off')" name="{{ __('Einmalige Zahlungen') }}"
                     :active="request()->routeIs('ledger.payments.one-off')" />
 
-                <x-setting-link :href="route('ledger.categories')" name="Categories"
+                <x-setting-link :href="route('ledger.categories')" name="{{ __('Kategorien') }}"
                     :active="request()->routeIs('ledger.categories')" />
             </div>
 
@@ -33,16 +33,18 @@
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
-                        <x-setting-link :href="route('ledger.overview')" name="Overview" :active="request()->routeIs('ledger.overview')" />
+                        <x-setting-link :href="route('ledger.overview')" name="{{ __('Übersicht') }}"
+                            :active="request()->routeIs('ledger.overview')" />
 
-                        <x-setting-link :href="route('ledger.payments.regular')" name="Regular Payments"
-                    :active="request()->routeIs('ledger.payments.regular')" />
+                        <x-setting-link :href="route('ledger.payments.regular')" name="{{ __('Regelmäßige Zahlungen') }}"
+                            :active="request()->routeIs('ledger.payments.regular')" />
 
-                        <x-setting-link :href="route('ledger.payments.one-off')" name="One-Off Payments"
-                    :active="request()->routeIs('ledger.payments.one-off')" />
+                        <x-setting-link :href="route('ledger.payments.one-off')" name="{{ __('Einmalige Zahlungen') }}"
+                            :active="request()->routeIs('ledger.payments.one-off')" />
 
-                        <x-setting-link :href="route('ledger.categories')" name="Categories"
-                    :active="request()->routeIs('ledger.categories')" />                    </div>
+                        <x-setting-link :href="route('ledger.categories')" name="{{ __('Kategorien') }}"
+                            :active="request()->routeIs('ledger.categories')" />
+                    </div>
                 </div>
             </div>
 

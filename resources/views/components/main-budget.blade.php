@@ -1,6 +1,6 @@
 @props(['heading'])
 
-<x-app-layout heading="Budget Account">
+<x-app-layout heading="{{ __('Haushaltskonto') }}">
     <x-setting heading="{{ $heading }}">
 
         <x-slot name="options">
@@ -9,16 +9,16 @@
 
         <x-slot name="links">
             <div class="hidden sm:inline-block">
-                <x-setting-link :href="route('budget.overview')" name="Overview"
+                <x-setting-link :href="route('budget.overview')" name="{{__('Übersicht')}}"
                     :active="request()->routeIs('budget.overview')" />
 
-                <x-setting-link :href="route('budget.payments')" name="Payments"
+                <x-setting-link :href="route('budget.payments')" name="{{__('Zahlungen')}}"
                     :active="request()->routeIs('budget.payments')" />
 
-                <x-setting-link :href="route('budget.categories')" name="Categories"
+                <x-setting-link :href="route('budget.categories')" name="{{__('Kategorien')}}"
                     :active="request()->routeIs('budget.categories')" />
 
-                <x-setting-link :href="route('budget.shops')" name="Shops" :active="request()->routeIs('budget.shops')" />
+                <x-setting-link :href="route('budget.shops')" name="Geschäfte" :active="request()->routeIs('budget.shops')" />
             </div>
 
             <div x-data="{ open: false }">
@@ -33,14 +33,16 @@
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
-                        <x-setting-link :href="route('budget.overview')" name="Overview"
+                        <x-setting-link :href="route('budget.overview')" name="{{__('Übersicht')}}"
                             :active="request()->routeIs('budget.overview')" />
 
-                        <x-setting-link :href="route('budget.payments')" name="Payments"
+                        <x-setting-link :href="route('budget.payments')" name="{{__('Zahlungen')}}"
                             :active="request()->routeIs('budget.payments')" />
 
-                        <x-setting-link :href="route('budget.shops')" name="Shops"
-                            :active="request()->routeIs('budget.shops')" />
+                        <x-setting-link :href="route('budget.categories')" name="{{__('Kategorien')}}"
+                            :active="request()->routeIs('budget.categories')" />
+
+                        <x-setting-link :href="route('budget.shops')" name="Geschäfte" :active="request()->routeIs('budget.shops')" />
                     </div>
                 </div>
             </div>
