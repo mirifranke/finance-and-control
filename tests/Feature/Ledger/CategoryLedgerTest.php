@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 class CategoryLedgerTest extends TestCase
 {
     use RefreshDatabase;
+
     /** @test */
     public function an_authorized_user_can_visit_ledger_categories()
     {

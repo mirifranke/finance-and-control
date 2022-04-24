@@ -1,4 +1,4 @@
-<x-main-ledger heading="Overview">
+<x-main-ledger heading="{{ __('Übersicht') }}">
     <div class="flex justify-center items-center py-3 md:pb-3">
         <div class="pb-1">
             <a href="{{ route('ledger.overview', ['date' => $lastMonth]) }}">
@@ -20,7 +20,7 @@
     <div class="hidden md:flex bg-white dark:bg-gray-900">
         <table class="min-w-full">
             <tr class="border-b">
-                <x-column header>Regular Payments</x-column>
+                <x-column header>{{ __('Regelmäßige Zahlungen') }}</x-column>
                 <x-column
                     header
                     class="text-right pr-5
@@ -28,7 +28,7 @@
                     >
                     {{ $totalRegular }} €
                 </x-column>
-                <x-column header>One-Off Payments</x-column>
+                <x-column header>{{ __('Einmalige Zahlungen') }}</x-column>
                 <x-column
                     header
                     class="text-right pr-5
@@ -37,26 +37,26 @@
                 </x-column>
             </tr>
             <tr>
-                <x-column>Incoming</x-column>
+                <x-column>{{ __('Einnahmen') }}</x-column>
 
                 <x-column class="text-right pr-5">
                     {{ $regularCredit }} €
                 </x-column>
 
-                <x-column>Incoming</x-column>
+                <x-column>{{ __('Einnahmen') }}</x-column>
 
                 <x-column class="text-right pr-5">
                     {{ $oneOffCredit }} €
                 </x-column>
             </tr>
             <tr>
-                <x-column>Outgoing</x-column>
+                <x-column>{{ __('Ausgaben') }}</x-column>
 
                 <x-column class="text-right pr-5">
                     {{ $regularDebit }} €
                 </x-column>
 
-                <x-column>Outgoing</x-column>
+                <x-column>{{ __('Ausgaben') }}</x-column>
 
                 <x-column class="text-right pr-5">
                     {{ $oneOffDebit }} €
@@ -68,7 +68,7 @@
     <div class="flex flex-col md:hidden bg-white dark:bg-gray-900 space-y-2">
         <table>
             <tr class="border-b">
-                <x-column header>Regular Payments</x-column>
+                <x-column header>{{ __('Regelmäßige Zahlungen') }}</x-column>
 
                 <x-column
                     header
@@ -80,14 +80,14 @@
             </tr>
             <tr>
                 <x-column>
-                    <div class="hover:text-blue-500">Incoming</div>
+                    <div class="hover:text-blue-500">{{ __('Einnahmen') }}</div>
                 </x-column>
 
                 <x-column class="text-right">{{ $regularCredit }} €</x-column>
             </tr>
             <tr>
                 <x-column>
-                    <div class="hover:text-blue-500">Outgoing</div>
+                    <div class="hover:text-blue-500">{{ __('Ausgaben') }}</div>
                 </x-column>
 
                 <x-column class="text-right">{{ $regularDebit }} €</x-column>
@@ -95,7 +95,7 @@
         </table>
         <table>
             <tr class="border-b">
-                <x-column header>One-Off Payments</x-column>
+                <x-column header>{{ __('Einmalige Zahlungen') }}</x-column>
                 <x-column
                     header
                     class="text-right
@@ -106,14 +106,14 @@
             </tr>
             <tr>
                 <x-column>
-                    <div class="hover:text-blue-500">Incoming</div>
+                    <div class="hover:text-blue-500">{{ __('Einnahmen') }}</div>
                 </x-column>
 
                 <x-column class="text-right">{{ $oneOffCredit }} €</x-column>
             </tr>
             <tr>
                 <x-column>
-                    <div class="hover:text-blue-500">Outgoing</div>
+                    <div class="hover:text-blue-500">{{ __('Ausgaben') }}</div>
                 </x-column>
 
                 <x-column class="text-right">{{ $oneOffDebit }} €</x-column>
@@ -123,6 +123,6 @@
 
     <div class="font-semibold text-center
         {{ $total >= 0 ? 'text-green-600' : 'text-red-600' }}">
-        Total: {{ $total }} €
+        {{ __('Gesamt') }}: {{ $total }} €
     </div>
 </x-main-ledger>

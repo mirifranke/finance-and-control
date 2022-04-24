@@ -1,19 +1,19 @@
 <div class="flex">
 <div class="pr-4">
         <x-filter-link href="/ledger/payments/regular">
-            All
+            {{ __('Alle') }}
         </x-filter-link>
     </div>
 
     <div class="pr-4">
         <x-filter-link href="/ledger/payments/regular/?type=incoming">
-            Incoming
+            {{ __('Einnahmen') }}
         </x-filter-link>
     </div>
 
     <div class="pr-4">
         <x-filter-link href="/ledger/payments/regular/?type=outgoing">
-            Outgoing
+            {{ __('Ausgaben') }}
         </x-filter-link>
     </div>
     <div class="pr-4">

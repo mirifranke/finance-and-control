@@ -1,4 +1,4 @@
-<x-main-budget heading="Overview">
+<x-main-budget heading="{{ __('Übersicht') }}">
     <div class="flex justify-center items-center py-3 md:pb-3">
         <div class="pb-1">
             <a href="#">
@@ -17,7 +17,7 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 bg-white dark:bg-gray-900 items-start gap-4">
+    {{-- <div class="grid grid-cols-1 md:grid-cols-2 bg-white dark:bg-gray-900 items-start gap-4">
         <table>
             <tr class="border-b">
                 <x-column header>Shops</x-column>
@@ -78,7 +78,7 @@
                 <x-column class="text-right">27 €</x-column>
             </tr>
         </table>
-    </div>
+    </div> --}}
 
-    <div class="font-semibold text-center">Total: 256 €</div>
+    {{-- <div class="font-semibold text-center">Total: 256 €</div> --}}
 </x-main-budget>

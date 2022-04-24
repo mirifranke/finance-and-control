@@ -1,4 +1,4 @@
-<x-main-ledger heading="Create Regular Payment">
+<x-main-ledger heading="{{ __('Neue regelmäßige Zahlung') }}">
     <div x-data="{
             isDebit: true,
             isEndless: true,
@@ -19,7 +19,7 @@
                                 class="bg-gray-200 text-green-600 border-none"
                                 value="0"
                             />
-                            <span class="ml-2">Incoming</span>
+                            <span class="ml-2">{{ __('Einnahme') }}</span>
                         </x-label>
 
                         <x-label class="inline-flex items-center">
@@ -31,7 +31,7 @@
                                 value="1"
                                 checked
                             />
-                            <span class="ml-2">Outgoing</span>
+                            <span class="ml-2">{{ __('Ausgabe') }}</span>
                         </x-label>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
 
                     {{-- Title --}}
                     <div>
-                        <x-label for="title" class="">Title</x-label>
+                        <x-label for="title" class="">{{ __('Titel') }}</x-label>
                         <x-input id="title" name="title" type="text" class="w-full" />
 
                         @error('title')
@@ -50,7 +50,7 @@
 
                     {{-- Amount --}}
                     <div>
-                        <x-label for="amount" class="">Amount</x-label>
+                        <x-label for="amount" class="">{{ __('Betrag') }}</x-label>
 
                         <div
                             class="relative border rounded-xl"
@@ -70,7 +70,7 @@
 
                     {{-- Category --}}
                     <div>
-                        <x-label for="category_id">Category</x-label>
+                        <x-label for="category_id">{{ __('Kategorie') }}</x-label>
                         <x-select-ledger-category />
 
                         @error('category_id')
@@ -99,14 +99,14 @@
                                 checked
                             >
                             <x-label class="inline-block pl-1" for="is_endless">
-                                endless
+                                {{ __('unendlich') }}
                             </x-label>
                         </div>
                     </div>
 
                     {{-- Intervall --}}
                     <div>
-                        <x-label for="interval">Intervall</x-label>
+                        <x-label for="interval">{{ __('Intervall') }}</x-label>
                         <x-select-interval currentInterval="monthly" />
 
                         @error('interval')
@@ -116,7 +116,7 @@
 
                     {{-- Start Date --}}
                     <div>
-                        <x-label for="starts_at" class="">Start Date</x-label>
+                        <x-label for="starts_at" class="">{{ __('Startdatum') }}</x-label>
 
                         <x-input
                             id="starts_at"
@@ -135,7 +135,7 @@
                     <div>
                         <template x-if="!isEndless">
                             <div>
-                                <x-label for="ends_at">End Date</x-label>
+                                <x-label for="ends_at">{{ __('Enddatum') }}</x-label>
                                 <x-input id="ends_at" name="ends_at" type="date" class="w-full" />
 
                                 @error('ends_at')

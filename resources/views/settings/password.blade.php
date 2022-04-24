@@ -17,7 +17,7 @@
 
             <!-- current Password -->
             <div class="mt-4">
-                <x-label for="currentPassword" :value="__('Current Password')" />
+                <x-label for="currentPassword" :value="__('Aktuelles Password')" />
 
                 <x-input id="currentPassword" class="block mt-1 w-full" type="password" name="currentPassword" required
                     autocomplete="current-password" />
@@ -25,7 +25,7 @@
 
             <!-- new Password -->
             <div class="mt-4">
-                <x-label for="newPassword" :value="__('New Password')" />
+                <x-label for="newPassword" :value="__('Neues Password')" />
 
                 <x-input id="newPassword" class="block mt-1 w-full" type="password" name="newPassword" required
                     autocomplete="new-password" />
@@ -33,7 +33,7 @@
 
             <div class="flex items-center justify-end mt-4">
                 <x-button class="ml-3">
-                    {{ __('Change Password') }}
+                    {{ __('Password ändern') }}
                 </x-button>
             </div>
         </form>

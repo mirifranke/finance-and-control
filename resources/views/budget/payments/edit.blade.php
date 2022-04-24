@@ -1,4 +1,4 @@
-<x-main-budget heading="Update Payment">
+<x-main-budget heading="{{ __('Zahlung') }}: {{ $payment->getStartsAtForUser() }} - {{ $payment->shop->title }}">
     <div x-data="{ isDebit: {{ $payment->isDebit() }} }">
        <form method="POST" action="{{ route('budget.payment.update', $payment) }}">
             @csrf
@@ -16,7 +16,7 @@
                                 value="0"
                                 {{ ! $payment->isDebit() ? 'checked' : ''}}
                             />
-                            <span class="ml-2">Incoming</span>
+                            <span class="ml-2">{{ __('Einnahme') }}</span>
                         </x-label>
 
                         <x-label class="inline-flex items-center">
@@ -28,7 +28,7 @@
                                 value="1"
                                 {{ $payment->isDebit() ? 'checked' : ''}}
                             />
-                            <span class="ml-2">Outgoing</span>
+                            <span class="ml-2">{{ __('Ausgabe') }}</span>
                         </x-label>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                 <div class="flex flex-col md:grow md:grid md:grid-cols-3 gap-4 pt-3">
                     {{-- Shop --}}
                     <div>
-                        <x-label for="shop" class="">Shop</x-label>
+                        <x-label for="shop" class="">{{ __('Geschäft') }}</x-label>
                         <x-select-budget-shop :currentShopId="$payment->shop_id" />
 
                         @error('shop')
@@ -46,7 +46,7 @@
 
                     {{-- Amount --}}
                     <div>
-                        <x-label for="amount" class="">Amount</x-label>
+                        <x-label for="amount" class="">{{ __('Betrag') }}</x-label>
 
                         <div
                             class="relative border rounded-xl"
@@ -66,7 +66,7 @@
 
                     {{-- Category --}}
                     <div>
-                        <x-label for="category_id">Category</x-label>
+                        <x-label for="category_id">{{ __('Kategorie') }}</x-label>
                         <x-select-budget-category currentCategoryId="{{ $payment->category_id }}" />
 
                         @error('category_id')
@@ -76,7 +76,7 @@
 
                     {{-- Description --}}
                     <div class="col-span-3">
-                        <x-label for="description" class="">Description</x-label>
+                        <x-label for="description" class="">{{ __('Beschreibung') }}</x-label>
                         <x-input id="description" name="description" type="text" value="{{ $payment->description }}" />
 
                         @error('description')
@@ -86,7 +86,7 @@
 
                     {{-- Start Date --}}
                     <div>
-                        <x-label for="starts_at">Date</x-label>
+                        <x-label for="starts_at">{{ __('Datum') }}</x-label>
 
                         <x-input id="starts_at" name="starts_at" type="date" value="{{ $payment->starts_at->toDateString() }}" />
 

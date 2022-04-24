@@ -1,4 +1,4 @@
-<x-main-ledger heading="Create Category">
+<x-main-ledger heading="{{ __('Kategorie') }}: {{ $category->title }}">
 
     <form method="POST" action="{{ route('ledger.category.update', $category) }}">
         @csrf
@@ -8,7 +8,7 @@
             <div class="flex flex-col md:grow md:grid md:grid-cols-3 gap-4">
                 {{-- Title --}}
                 <div>
-                    <x-label for="title" class="">Title</x-label>
+                    <x-label for="title" class="">{{ __('Titel') }}</x-label>
                     <x-input id="title" name="title" type="text" class="w-full" value="{{ $category->title }}" />
 
                     @error('title')
@@ -18,7 +18,7 @@
 
                 {{-- Description --}}
                 <div class="col-span-3">
-                    <x-label for="description" class="">Description</x-label>
+                    <x-label for="description" class="">{{ __('Beschreibung') }}</x-label>
                     <x-input id="description" name="description" type="text" class="w-full" value="{{ $category->description }}" />
 
                     @error('description')
