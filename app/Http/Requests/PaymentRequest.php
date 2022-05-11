@@ -23,7 +23,7 @@ class PaymentRequest extends FormRequest
             'description' => ['nullable'],
             'interval' => ['required'],
             'starts_at' => ['required', 'date'],
-            'ends_at' => ['nullable', 'date'],
+            'ends_at' => ['nullable', 'date', 'after:starts_at'],
         ];
     }
 }
