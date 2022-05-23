@@ -11,8 +11,7 @@
         "laravel/framework": "^9.2",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
-        "livewire/livewire": "^2.10",
-        "spatie/laravel-csp": "^2.7"
+        "livewire/livewire": "^2.10"
     },
     "require-dev": {
         "brianium/paratest": "^6.4",
