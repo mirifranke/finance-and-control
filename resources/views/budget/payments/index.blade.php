@@ -7,11 +7,5 @@
         <x-button class="w-full md:w-min">{{ __('Neu') }}</x-button>
     </a>
 
-    @include('budget.payments.partials.table', $payments)
-
-    {{ $payments->links() }}
-
-    <div class="font-semibold items-center">
-        {{ __('Gesamt') }}: {{ $total }} €
-    </div>
+    @livewire('budget-table')
 </x-main-budget>

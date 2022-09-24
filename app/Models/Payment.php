@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Services\PaymentService;
-use App\Utilities\Helper;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -163,5 +161,46 @@ class Payment extends Model
     public function isWeekly()
     {
         return $this->interval === self::INTERVAL_WEEKLY;
+    }
+
+    public function scopeRegularLedger($query)
+    {
+        $query
+            ->where('account_type', Payment::ACCOUNT_TYPE_LEDGER)
+            ->where('payment_type', Payment::PAYMENT_TYPE_REGULAR);
+    }
+
+    public function scopeOneOffLedger($query)
+    {
+        $query
+            ->where('account_type', Payment::ACCOUNT_TYPE_LEDGER)
+            ->where('payment_type', Payment::PAYMENT_TYPE_ONE_OFF);
+    }
+    public function scopeBudget($query)
+    {
+        $query->where('account_type', Payment::ACCOUNT_TYPE_BUDGET);
+    }
+
+    public function scopeActive($query)
+    {
+        $query
+            ->where('starts_at', '<=', Carbon::now())
+            ->where(fn ($query) => $query
+                ->where('ends_at', null)
+                ->orWhere('ends_at', '>=', Carbon::now())
+        );
+    }
+
+    public function scopeInactive($query)
+    {
+        $query
+            ->where('starts_at', '>', Carbon::now())
+            ->orWhere('ends_at', '<', Carbon::now());
+    }
+
+    public function scopeIsActive($query, bool $isActive)
+    {
+        $query->when($isActive, fn ($query) => $query->active())
+            ->when(! $isActive, fn ($query) => $query->inactive());
     }
 }

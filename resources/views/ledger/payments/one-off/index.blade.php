@@ -7,11 +7,5 @@
         <x-button class="w-full md:w-min">{{ __('Neu') }}</x-button>
     </a>
 
-    @include('ledger.payments.one-off.partials.table', $payments)
-
-    {{ $payments->links() }}
-
-    <div class="font-semibold items-center">
-        {{ __('Gesamt') }}: {{ $total }} €
-    </div>
+    @livewire('one-off-ledger-table')
 </x-main-ledger>
